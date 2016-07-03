@@ -49,7 +49,7 @@ namespace UTExport.MSpec
 
         private UTInfo GetClassParent(UTInfo utInfo, int currentLevel)
         {
-            if (currentLevel == 0)
+            if (currentLevel == 1)
             {
                 return utInfo;
             }
