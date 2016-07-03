@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using UTExport;
@@ -12,34 +13,27 @@ namespace UTCli
     {
         static void Main(string[] args)
         {
-            string tigerFolderName = ConfigurationManager.AppSettings["TigerFolder"];
+            ExportToTxt(new JTManager(), JTManager.IsJtFile,
+                "c:\\users\\administrator\\desktop\\jt.txt");
 
-            var jtManager = new JTManager();
-            List<UTInfo> exportAllJTs = Utils.ExportAllUTs(tigerFolderName, 
-                f => jtManager.Export(f),
-                JTManager.IsJtFile);
+            ExportToTxt(new MSpecManager(), Utils.IsCsFile,
+                "c:\\users\\administrator\\desktop\\mspec1.txt");
 
-            UtTxtWriter.WriteToTxt(exportAllJTs, "c:\\users\\administrator\\desktop\\jt.txt");
-
-            var mSpecManager = new MSpecManager();
-            List<UTInfo> exportAllMspecs = Utils.ExportAllUTs(tigerFolderName,
-                f => mSpecManager.Export(f),
-                IsCsFile);
-
-            UtTxtWriter.WriteToTxt(exportAllMspecs, "c:\\users\\administrator\\desktop\\mspec1.txt");
-            
-            var xUnitManager = new XUnitManager();
-            List<UTInfo> exportAllXUnits = Utils.ExportAllUTs(tigerFolderName,
-                f => xUnitManager.Export(f),
-                IsCsFile);
-
-            UtTxtWriter.WriteToTxt(exportAllXUnits, "c:\\users\\administrator\\desktop\\xunit1.txt");
+            ExportToTxt(new XUnitManager(), Utils.IsCsFile,
+                "c:\\users\\administrator\\desktop\\xunit1.txt");
 
         }
 
-        private static bool IsCsFile(FileInfo arg)
+        private static void ExportToTxt(IUTManager utManager,
+            Func<FileInfo, bool> isUtFile, string outputFileName)
         {
-            return arg.Extension == ".cs";
+            string tigerFolderName = ConfigurationManager.AppSettings["TigerFolder"];
+
+            List<UTInfo> exportAllJTs = Utils.ExportAllUTs(tigerFolderName,
+                utManager.Export,
+                isUtFile);
+
+            UtTxtWriter.WriteToTxt(exportAllJTs, outputFileName);
         }
     }
 }

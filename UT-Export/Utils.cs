@@ -47,5 +47,16 @@ namespace UTExport
             IEnumerable<UTInfo> result = utInfosFromDirectories.Union(utInfosFromFiles);
             return result.ToList();
         }
+
+        public static bool IsCsFile(FileInfo arg)
+        {
+            return arg.Extension == ".cs";
+        }
+
+        public static string GetFileName(string fileFullName)
+        {
+            var fileInfo = new FileInfo(fileFullName);
+            return fileInfo.Name;
+        }
     }
 }

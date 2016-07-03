@@ -5,8 +5,10 @@ namespace UTExport
 {
     public class UTInfo
     {
-        public UTInfo()
+        public UTInfo(string fileFullName)
         {
+            FileName = Utils.GetFileName(fileFullName);
+
             WhenList = new List<string>();
             ThenList = new List<string>();
             Children = new List<UTInfo>();
@@ -23,6 +25,13 @@ namespace UTExport
         public bool IsEmpty()
         {
             return !WhenList.Any() && !ThenList.Any() && Children.All(c => c.IsEmpty());
+        }
+
+        public void ClearEmptyChildren()
+        {
+            Children.Where(c => c.IsEmpty())
+                .ToList()
+                .ForEach(i => Children.Remove(i));
         }
     }
 }

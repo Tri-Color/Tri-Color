@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsParseExtension.cs" />
+    <Compile Include="IUTManager.cs" />
     <Compile Include="MSpec\MSpecParseExtension.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="JT\JTManager.cs" />

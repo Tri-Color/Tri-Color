@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UTExport.JT
 {
-    public class JTManager
+    public class JTManager : IUTManager
     {
         public static bool IsJtFile(FileInfo f)
         {
@@ -14,7 +14,7 @@ namespace UTExport.JT
 
         public List<UTInfo> Export(string fileFullName)
         {
-            var rootUtInfo = new UTInfo();
+            var rootUtInfo = new UTInfo(fileFullName);
 
             using (var streamReader = new StreamReader(fileFullName))
             {
@@ -22,15 +22,20 @@ namespace UTExport.JT
                 {
                     string currentLine = streamReader.ReadLine();
 
-                    if (currentLine.IsComment() || !currentLine.IsDescribeOrIt()) continue;
+                    if (currentLine.IsComment() || !currentLine.IsDescribeOrIt())
+                    {
+                        continue;
+                    }
 
                     int currentLevel = currentLine.GetLevel();
                     if (currentLine.IsDescribe())
                     {
                         UTInfo parentUtInfo = GetDescribeParent(rootUtInfo, currentLevel);
-                        UTInfo currentUtInfo = CreateNewUtInfo(fileFullName);
-                        currentUtInfo.Description = currentLine.ToDescribeDescription();
-                        currentUtInfo.Parent = parentUtInfo;
+                        UTInfo currentUtInfo = new UTInfo(fileFullName)
+                        {
+                            Description = currentLine.ToDescribeDescription(),
+                            Parent = parentUtInfo
+                        };
                         parentUtInfo.Children.Add(currentUtInfo);
                     }
 
@@ -41,6 +46,8 @@ namespace UTExport.JT
                     }
                 }
             }
+
+            rootUtInfo.ClearEmptyChildren();
 
             return rootUtInfo.Children;
         }
@@ -63,21 +70,6 @@ namespace UTExport.JT
         private UTInfo GetItParent(UTInfo utInfo, int currentLevel)
         {
             return GetDescribeParent(utInfo, currentLevel);
-        }
-
-        private static UTInfo CreateNewUtInfo(string fileFullName)
-        {
-            var utInfo = new UTInfo
-            {
-                FileName = GetFileName(fileFullName)
-            };
-            return utInfo;
-        }
-
-        private static string GetFileName(string fileFullName)
-        {
-            var fileInfo = new FileInfo(fileFullName);
-            return fileInfo.Name;
         }
     }
 }
