@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JT\when_export_jt_with_space_and_tab.cs" />
     <Compile Include="JT\when_export_nested_jt.cs" />
     <Compile Include="JT\when_export_jt_with_2_describes_in_same_level.cs" />
     <Compile Include="JT\when_export_simple_jt.cs" />
@@ -55,6 +56,7 @@
     <Content Include="JT\Fixtures\two-describe-in-same-level.js" />
     <Content Include="JT\Fixtures\single-quotes-spec.js" />
     <Content Include="JT\Fixtures\simple-spec.js" />
+    <None Include="JT\Fixtures\space-and-tab-spec.es6" />
     <None Include="JT\Fixtures\nested-spec.es6" />
     <None Include="packages.config" />
   </ItemGroup>
