@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,24 +7,7 @@ namespace UTExport.JT
 {
     public class JTManager
     {
-        public List<UTInfo> ExportAllJTs(string path)
-        {
-            var directoryInfo = new DirectoryInfo(path);
-
-            IEnumerable<UTInfo> utInfosFromFiles = directoryInfo
-                .GetFiles()
-                .Where(IsJtFile)
-                .ToList()
-                .SelectMany(f => Export(f.FullName));
-
-            IEnumerable<UTInfo> utInfosFromDirectories =
-                directoryInfo.GetDirectories().SelectMany(d => ExportAllJTs(d.FullName));
-
-            IEnumerable<UTInfo> result = utInfosFromDirectories.Union(utInfosFromFiles);
-            return result.ToList();
-        }
-
-        private static bool IsJtFile(FileInfo f)
+        public static bool IsJtFile(FileInfo f)
         {
             string fullName = f.FullName;
             return fullName.EndsWith("-spec.es6") || fullName.EndsWith("-spec.js");

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -18,7 +19,13 @@ namespace UTExport
         {
             textWriter.WriteLine("UT count is {0}", utInfos.Count);
 
-            var itCount = utInfos.Sum(utInfo => GetElementCount(utInfo));
+            var becauseCount = utInfos.Sum(utInfo => GetElementCount(utInfo, i => i.WhenList));
+            if (becauseCount != 0)
+            {
+                textWriter.WriteLine("Because count is {0}", becauseCount);                
+            }
+
+            var itCount = utInfos.Sum(utInfo => GetElementCount(utInfo, i => i.ThenList));
             textWriter.WriteLine("It count is {0}", itCount);
             textWriter.WriteLine();
 
@@ -34,6 +41,10 @@ namespace UTExport
             textWriter.WriteLine("{0}{1}", new string('\t', tabCount), utInfo.Description);
 
             var space = new string('\t', tabCount + 1);
+            if (utInfo.WhenList.Any())
+            {
+                utInfo.WhenList.ForEach(b => textWriter.WriteLine("{0}{1}", space, b));
+            }
             utInfo.ThenList.ForEach(b => textWriter.WriteLine("{0}{1}", space, b));
 
             utInfo.Children.ForEach(
@@ -49,9 +60,9 @@ namespace UTExport
             }
         }
 
-        private static int GetElementCount(UTInfo utInfo)
+        private static int GetElementCount(UTInfo utInfo, Func<UTInfo, List<string>> func)
         {
-            return utInfo.ThenList.Count + utInfo.Children.Sum(i => GetElementCount(i));
+            return func(utInfo).Count + utInfo.Children.Sum(i => GetElementCount(i, func));
         }
     }
 }

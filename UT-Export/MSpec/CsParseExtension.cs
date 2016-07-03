@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace UTExport
+namespace UTExport.MSpec
 {
     public static class CsParseExtension
     {

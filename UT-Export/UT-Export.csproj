@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsParseExtension.cs" />
+    <Compile Include="MSpec\CsParseExtension.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="JT\JTManager.cs" />
     <Compile Include="JT\JtParseExtension.cs" />
