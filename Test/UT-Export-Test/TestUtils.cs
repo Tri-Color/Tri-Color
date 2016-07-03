@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace UTExport.Test
 {
-    public class Utils
+    public class TestUtils
     {
         public static string GetFixtureFileFullName(string relativeFixtureFileName)
         {

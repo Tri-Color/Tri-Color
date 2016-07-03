@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MSpec\CsParseExtension.cs" />
+    <Compile Include="CsParseExtension.cs" />
+    <Compile Include="MSpec\MSpecParseExtension.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="JT\JTManager.cs" />
     <Compile Include="JT\JtParseExtension.cs" />
@@ -47,6 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UTInfo.cs" />
     <Compile Include="UtTxtWriter.cs" />
+    <Compile Include="XUnit\XUnitManager.cs" />
+    <Compile Include="XUnit\XUnitParseExtension.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_2_utInfos()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\two-describe-in-same-level.js");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\two-describe-in-same-level.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);

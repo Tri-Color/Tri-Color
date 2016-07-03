@@ -12,7 +12,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_jt_with_correct_levels()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\space-and-tab-spec.es6");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\space-and-tab-spec.es6");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);

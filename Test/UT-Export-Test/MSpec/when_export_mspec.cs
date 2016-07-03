@@ -13,7 +13,7 @@ namespace UTExport.Test.MSpec
             var mSpecManager = new MSpecManager();
             List<UTInfo> utInfos =
                 mSpecManager.Export(
-                    Utils.GetFixtureFileFullName("MSpec\\Fixtures\\StandardSimpleMSpec.txt"));
+                    TestUtils.GetFixtureFileFullName("MSpec\\Fixtures\\StandardSimpleMSpec.txt"));
 
             Assert.Equal(1, utInfos.Count);
             UTInfo utInfo = utInfos.Single();
@@ -31,7 +31,7 @@ namespace UTExport.Test.MSpec
             var mSpecManager = new MSpecManager();
             List<UTInfo> utInfos =
                 mSpecManager.Export(
-                    Utils.GetFixtureFileFullName("MSpec\\Fixtures\\MSpecWithNested.txt"));
+                    TestUtils.GetFixtureFileFullName("MSpec\\Fixtures\\MSpecWithNested.txt"));
 
             Assert.Equal(1, utInfos.Count);
             UTInfo topLevelUtInfo = utInfos.Single();

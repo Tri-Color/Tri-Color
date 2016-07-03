@@ -4,12 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UTExport.JT;
 
 namespace UTExport
 {
     public static class Utils
     {
+        public static bool IsComment(this string line)
+        {
+            return line.Trim().StartsWith("//");
+        }
+
         public static int GetLevel(this string currentLine)
         {
             Match match = GetMatch(currentLine, "^([\t, \x20]*)");
@@ -42,11 +46,6 @@ namespace UTExport
 
             IEnumerable<UTInfo> result = utInfosFromDirectories.Union(utInfosFromFiles);
             return result.ToList();
-        }
-
-        public static bool IsCsFile(FileInfo arg)
-        {
-            return arg.Extension == ".cs";
         }
     }
 }

@@ -12,7 +12,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_describe_and_it_with_double_quotes()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\simple-spec.js");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\simple-spec.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
@@ -29,7 +29,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_describe_and_it_with_single_quotes()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\single-quotes-spec.js");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\single-quotes-spec.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
@@ -45,7 +45,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_no_jt_if_line_is_comment()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\comment-spec.js");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\comment-spec.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
@@ -56,7 +56,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_jt_with_irregular_indent()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\irregular-indent-spec.js");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\irregular-indent-spec.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);

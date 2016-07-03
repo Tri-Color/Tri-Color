@@ -12,7 +12,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_jt_with_nested_jts()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\nested-spec.es6");
+            var fixtureFileFullName = TestUtils.GetFixtureFileFullName("JT\\Fixtures\\nested-spec.es6");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);

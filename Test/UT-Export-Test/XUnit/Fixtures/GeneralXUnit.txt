@@ -1,0 +1,33 @@
+﻿using Xunit;
+using Xunit.Extensions;
+
+namespace TestFixture
+{
+    public class GeneralXUnit
+    {
+        [Fact]
+        public void FactMethodName()
+        {
+            
+        }
+        
+        [Fact]
+        private void FactMethodName2()
+        {
+            
+        }
+
+        [Theory]
+        public void TheoryMethodName()
+        {
+
+        }
+		
+		[Theory]
+		[InlineData()]
+        public void TheoryMethodName2()
+        {
+
+        }
+    }
+}

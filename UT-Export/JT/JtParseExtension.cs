@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace UTExport.JT
@@ -23,11 +22,6 @@ namespace UTExport.JT
         public static bool IsDescribeOrIt(this string line)
         {
             return line.IsDescribe() || line.IsIt();
-        }
-        
-        public static bool IsComment(this string line)
-        {
-            return line.Trim().StartsWith("//");
         }
 
         public static string ToItDescription(this string currentLine)

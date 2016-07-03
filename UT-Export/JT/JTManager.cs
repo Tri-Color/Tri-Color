@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,27 +16,29 @@ namespace UTExport.JT
         {
             var rootUtInfo = new UTInfo();
 
-            var streamReader = new StreamReader(fileFullName);
-            while (!streamReader.EndOfStream)
+            using (var streamReader = new StreamReader(fileFullName))
             {
-                string currentLine = streamReader.ReadLine();
-
-                if (currentLine.IsComment() || !currentLine.IsDescribeOrIt()) continue;
-
-                int currentLevel = currentLine.GetLevel();
-                if (currentLine.IsDescribe())
+                while (!streamReader.EndOfStream)
                 {
-                    UTInfo parentUtInfo = GetDescribeParent(rootUtInfo, currentLevel);
-                    UTInfo currentUtInfo = CreateNewUtInfo(fileFullName);
-                    currentUtInfo.Description = currentLine.ToDescribeDescription();
-                    currentUtInfo.Parent = parentUtInfo;
-                    parentUtInfo.Children.Add(currentUtInfo);
-                }
+                    string currentLine = streamReader.ReadLine();
 
-                if (currentLine.IsIt())
-                {
-                    UTInfo parentUTInfo = GetItParent(rootUtInfo, currentLevel);
-                    parentUTInfo.ThenList.Add(currentLine.ToItDescription());
+                    if (currentLine.IsComment() || !currentLine.IsDescribeOrIt()) continue;
+
+                    int currentLevel = currentLine.GetLevel();
+                    if (currentLine.IsDescribe())
+                    {
+                        UTInfo parentUtInfo = GetDescribeParent(rootUtInfo, currentLevel);
+                        UTInfo currentUtInfo = CreateNewUtInfo(fileFullName);
+                        currentUtInfo.Description = currentLine.ToDescribeDescription();
+                        currentUtInfo.Parent = parentUtInfo;
+                        parentUtInfo.Children.Add(currentUtInfo);
+                    }
+
+                    if (currentLine.IsIt())
+                    {
+                        UTInfo parentUTInfo = GetItParent(rootUtInfo, currentLevel);
+                        parentUTInfo.ThenList.Add(currentLine.ToItDescription());
+                    }
                 }
             }
 

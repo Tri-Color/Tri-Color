@@ -2,21 +2,23 @@
 using System.IO;
 using System.Linq;
 
-namespace UTExport.MSpec
+namespace UTExport.XUnit
 {
-    public class MSpecManager
+    public class XUnitManager
     {
         public List<UTInfo> Export(string fullFileName)
         {
             var rootUtInfo = new UTInfo();
-
+                
             using (var streamReader = new StreamReader(fullFileName))
             {
+                bool isFact = false;
+
                 while (!streamReader.EndOfStream)
                 {
                     string currentLine = streamReader.ReadLine();
 
-                    if (currentLine.IsComment() || !currentLine.IsUsefulMSpecStatement()) continue;
+                    if (currentLine.IsComment() || !currentLine.IsUsefulXUnitStatement()) continue;
 
                     int currentLevel = currentLine.GetLevel();
                     if (currentLine.IsClass())
@@ -27,24 +29,23 @@ namespace UTExport.MSpec
                         currentUtInfo.Parent = parentUtInfo;
                         parentUtInfo.Children.Add(currentUtInfo);
                     }
-
-                    if (currentLine.IsBecause())
+                    else if (currentLine.IsFact() || currentLine.IsTheory() ||
+                             currentLine.IsInlineData())
                     {
-                        UTInfo parentClass = GetFieldParentClass(rootUtInfo, currentLevel);
-                        parentClass.WhenList.Add(currentLine.ToBecause());
+                        isFact = true;
                     }
-
-                    if (currentLine.IsIt())
+                    else if (isFact && currentLine.IsMethod())
                     {
                         UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
-                        parentUTInfo.ThenList.Add(currentLine.ToIt());
+                        parentUTInfo.ThenList.Add(currentLine.ToMethodName());
+                        isFact = false;
                     }
                 }
-
-                rootUtInfo.Children.Where(c => c.IsEmpty())
-                    .ToList()
-                    .ForEach(i => rootUtInfo.Children.Remove(i));
             }
+
+            rootUtInfo.Children.Where(c => c.IsEmpty())
+                .ToList()
+                .ForEach(i => rootUtInfo.Children.Remove(i));
 
             return rootUtInfo.Children;
         }
