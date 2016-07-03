@@ -41,5 +41,16 @@ namespace UTExport.Test.JT
             Assert.Equal("it 1", utInfo.ThenList[0]);
             Assert.Equal("it 2", utInfo.ThenList[1]);
         }
+
+        [Fact]
+        public void should_export_no_jt_if_line_is_comment()
+        {
+            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\comment-spec.js");
+
+            var jtManager = new JTManager();
+            List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
+
+            Assert.Equal(0, utInfos.Count);
+        }
     }
 }

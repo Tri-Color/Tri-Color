@@ -15,7 +15,7 @@ namespace UTExport.JT
             {
                 string currentLine = streamReader.ReadLine();
 
-                if (!currentLine.IsDescribeOrIt()) continue;
+                if (currentLine.IsComment() || !currentLine.IsDescribeOrIt()) continue;
 
                 int currentLevel = currentLine.GetLevel();
                 if (currentLine.IsDescribe())

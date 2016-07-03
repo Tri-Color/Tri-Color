@@ -53,6 +53,7 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="JT\Fixtures\comment-spec.js" />
     <Content Include="JT\Fixtures\two-describe-in-same-level.js" />
     <Content Include="JT\Fixtures\single-quotes-spec.js" />
     <Content Include="JT\Fixtures\simple-spec.js" />

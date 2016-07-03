@@ -7,7 +7,7 @@ namespace UTExport.JT
     {
         public static bool IsDescribe(this string currentLine)
         {
-            return GetDescribeMatch(currentLine).Success;
+            return !currentLine.IsComment() && GetDescribeMatch(currentLine).Success;
         }
 
         public static string ToDescribeDescription(this string currentLine)
@@ -17,12 +17,17 @@ namespace UTExport.JT
         
         public static bool IsIt(this string currentLine)
         {
-            return GetItMatch(currentLine).Success;
+            return !currentLine.IsComment() && GetItMatch(currentLine).Success;
         }
 
         public static bool IsDescribeOrIt(this string line)
         {
             return line.IsDescribe() || line.IsIt();
+        }
+        
+        public static bool IsComment(this string line)
+        {
+            return line.Trim().StartsWith("//");
         }
 
         public static string ToItDescription(this string currentLine)
