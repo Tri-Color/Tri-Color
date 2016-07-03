@@ -35,29 +35,14 @@ namespace UTExport.JT
             return GetItMatch(currentLine).Groups[2].Value;
         }
 
-        public static int GetLevel(this string currentLine)
-        {
-            Match match = GetMatch(currentLine, "([\t, \x20]*)(\\bdescribe\\b\\(|\\bit\\b\\()");
-            Debug.Assert(match.Success);
-            string whitespace = match.Groups[1].Value;
-            string afterReplace4SpacesWithTab = whitespace.Replace("    ", "\t");
-            string afterRemoveReduntantSpace = afterReplace4SpacesWithTab.Replace(" ", "");
-            return afterRemoveReduntantSpace.Length;
-        }
-
         private static Match GetDescribeMatch(string currentLine)
         {
-            return GetMatch(currentLine, "(\\bdescribe\\([', \"])(.*)([', \"],)");
-        }
-
-        private static Match GetMatch(string currentLine, string pattern)
-        {
-            return new Regex(pattern).Match(currentLine);
+            return new Regex("(\\bdescribe\\([', \"])(.*)([', \"],)").Match(currentLine);
         }
 
         private static Match GetItMatch(string currentLine)
         {
-            return GetMatch(currentLine, "(\\bit\\([', \"])(.*)([', \"],)");
+            return new Regex("(\\bit\\([', \"])(.*)([', \"],)").Match(currentLine);
         }
     }
 }

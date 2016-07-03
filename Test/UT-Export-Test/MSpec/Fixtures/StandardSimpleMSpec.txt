@@ -1,0 +1,15 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using Machine.Specifications;
+
+namespace TestFixture
+{
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class StandardSimpleMSpec : ResourceSpec
+    {
+        Establish context = () => {};
+        Because do_something = () => {};
+        It should_do_one_thing = () => {};
+        It should_do_another_thing = () => {};
+    }
+}

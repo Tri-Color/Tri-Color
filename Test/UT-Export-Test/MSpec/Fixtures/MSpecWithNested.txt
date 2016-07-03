@@ -1,0 +1,37 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using Machine.Specifications;
+
+namespace TestFixture
+{
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    public class MSpecWithNested
+    {
+        public class Nested1
+        {
+            Establish context = () => { };
+            Because do_something1 = () => { };
+            It should_do_one_thing1 = () => { };
+            It should_do_another_thing1 = () => { }; 
+        }
+        
+        public class Nested2
+        {
+            public class Nested3
+            {
+                Because do_something3 = () => { };
+                It should_do_one_thing3 = () => { };
+                Because do_another_thing3 = () => {};
+                It should_do_another_thing3 = () => { };  
+            }
+
+            public class Nested4
+            {
+                Because do_something4 = () => { };
+                It should_do_one_thing4 = () => { };
+                It should_do_another_thing4 = () => { };  
+            }
+        }
+        
+    }
+}
