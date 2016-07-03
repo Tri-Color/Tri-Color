@@ -52,5 +52,19 @@ namespace UTExport.Test.JT
 
             Assert.Equal(0, utInfos.Count);
         }
+
+        [Fact]
+        public void should_export_jt_with_irregular_indent()
+        {
+            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\irregular-indent-spec.js");
+
+            var jtManager = new JTManager();
+            List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
+
+            Assert.Equal(1, utInfos.Count);
+
+            UTInfo utInfo = utInfos.Single();
+            Assert.Equal(1, utInfo.ThenList.Count);
+        }
     }
 }

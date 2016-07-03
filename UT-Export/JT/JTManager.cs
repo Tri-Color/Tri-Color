@@ -6,6 +6,29 @@ namespace UTExport.JT
 {
     public class JTManager
     {
+        public List<UTInfo> ExportAllJTs(string path)
+        {
+            var directoryInfo = new DirectoryInfo(path);
+
+            IEnumerable<UTInfo> utInfosFromFiles = directoryInfo
+                .GetFiles()
+                .Where(IsJtFile)
+                .ToList()
+                .SelectMany(f => Export(f.FullName));
+
+            IEnumerable<UTInfo> utInfosFromDirectories =
+                directoryInfo.GetDirectories().SelectMany(d => ExportAllJTs(d.FullName));
+
+            IEnumerable<UTInfo> result = utInfosFromDirectories.Union(utInfosFromFiles);
+            return result.ToList();
+        }
+
+        private static bool IsJtFile(FileInfo f)
+        {
+            string fullName = f.FullName;
+            return fullName.EndsWith("-spec.es6") || fullName.EndsWith("-spec.js");
+        }
+
         public List<UTInfo> Export(string fileFullName)
         {
             var rootUtInfo = new UTInfo();
@@ -40,6 +63,11 @@ namespace UTExport.JT
         private UTInfo GetDescribeParent(UTInfo utInfo, int currentLevel)
         {
             if (currentLevel == 0)
+            {
+                return utInfo;
+            }
+
+            if (!utInfo.Children.Any())
             {
                 return utInfo;
             }
