@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters;
-using System.Text.RegularExpressions;
 
 namespace UTExport.JT
 {
@@ -13,14 +11,23 @@ namespace UTExport.JT
             {
                 FileName = GetFileName(fileFullName)
             };
+
             var streamReader = new StreamReader(fileFullName);
-            var currentLine = streamReader.ReadLine();
-            var regex = new Regex("(\\bdescribe\\([', \"])(.*)([', \"],)");
-            Match match = regex.Match(currentLine);
-            if (match.Success)
+            while (!streamReader.EndOfStream)
             {
-                utInfo.Description = match.Groups[2].Value;                
+                string currentLine = streamReader.ReadLine();
+
+                if (currentLine.IsDescribe())
+                {
+                    utInfo.Description = currentLine.ToDescribeDescription();
+                }
+
+                if (currentLine.IsIt())
+                {
+                    utInfo.ThenList.Add(currentLine.ToItDescription());
+                }
             }
+            
             return new List<UTInfo>
             {
                 utInfo

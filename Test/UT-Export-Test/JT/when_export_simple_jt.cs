@@ -12,7 +12,7 @@ namespace UTExport.Test.JT
         [Fact]
         public void should_export_describe_and_it()
         {
-            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\nested-spec.es6");
+            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\simple-spec.js");
 
             var jtManager = new JTManager();
             List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
@@ -20,8 +20,10 @@ namespace UTExport.Test.JT
             Assert.Equal(1, utInfos.Count);
 
             UTInfo utInfo = utInfos.Single();
-            Assert.Equal("nested-spec.es6", utInfo.FileName);
-            Assert.Equal("top describe", utInfo.Description);
+            Assert.Equal("simple-spec.js", utInfo.FileName);
+            Assert.Equal("describe", utInfo.Description);
+            Assert.Equal("it 1", utInfo.ThenList[0]);
+            Assert.Equal("it 2", utInfo.ThenList[1]);
         }
     }
 }

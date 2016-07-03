@@ -50,7 +50,8 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="JT\nested-spec.es6" />
+    <Content Include="JT\Fixtures\simple-spec.js" />
+    <None Include="JT\Fixtures\nested-spec.es6" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
