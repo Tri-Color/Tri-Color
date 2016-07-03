@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace UTExport.JT
@@ -19,9 +20,24 @@ namespace UTExport.JT
             return GetItMatch(currentLine).Success;
         }
 
+        public static bool IsDescribeOrIt(this string line)
+        {
+            return line.IsDescribe() || line.IsIt();
+        }
+
         public static string ToItDescription(this string currentLine)
         {
             return GetItMatch(currentLine).Groups[2].Value;
+        }
+
+        public static int GetLevel(this string currentLine)
+        {
+            Match match = GetMatch(currentLine, "([\t, \x20]*)(\\bdescribe\\b\\(|\\bit\\b\\()");
+            Debug.Assert(match.Success);
+            string whitespace = match.Groups[1].Value;
+            string afterReplace4SpacesWithTab = whitespace.Replace("    ", "\t");
+            string afterRemoveReduntantSpace = afterReplace4SpacesWithTab.Replace(" ", "");
+            return afterRemoveReduntantSpace.Length;
         }
 
         private static Match GetDescribeMatch(string currentLine)

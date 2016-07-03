@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace UTExport.JT
 {
@@ -8,37 +8,56 @@ namespace UTExport.JT
     {
         public List<UTInfo> Export(string fileFullName)
         {
-            var result = new List<UTInfo>();
+            var rootUtInfo = new UTInfo();
 
             var streamReader = new StreamReader(fileFullName);
-            UTInfo currentUtInfo = null;
-
             while (!streamReader.EndOfStream)
             {
                 string currentLine = streamReader.ReadLine();
+
+                if (!currentLine.IsDescribeOrIt()) continue;
+
+                int currentLevel = currentLine.GetLevel();
                 if (currentLine.IsDescribe())
                 {
-                    currentUtInfo = CreateNewUtInfo(fileFullName, result);
+                    UTInfo parentUtInfo = GetDescribeParent(rootUtInfo, currentLevel);
+                    UTInfo currentUtInfo = CreateNewUtInfo(fileFullName);
                     currentUtInfo.Description = currentLine.ToDescribeDescription();
+                    currentUtInfo.Parent = parentUtInfo;
+                    parentUtInfo.Children.Add(currentUtInfo);
                 }
 
                 if (currentLine.IsIt())
                 {
-                    Debug.Assert(currentUtInfo != null, "currentUtInfo != null");
-                    currentUtInfo.ThenList.Add(currentLine.ToItDescription());
+                    UTInfo parentUTInfo = GetItParent(rootUtInfo, currentLevel);
+                    parentUTInfo.ThenList.Add(currentLine.ToItDescription());
                 }
             }
 
-            return result;
+            return rootUtInfo.Children;
         }
 
-        private static UTInfo CreateNewUtInfo(string fileFullName, List<UTInfo> result)
+        private UTInfo GetDescribeParent(UTInfo utInfo, int currentLevel)
+        {
+            if (currentLevel == 0)
+            {
+                return utInfo;
+            }
+
+            return GetDescribeParent(utInfo.Children.Last(), currentLevel - 1);
+        }
+
+        private UTInfo GetItParent(UTInfo utInfo, int currentLevel)
+        {
+            return GetDescribeParent(utInfo, currentLevel);
+        }
+
+        private static UTInfo CreateNewUtInfo(string fileFullName)
         {
             var utInfo = new UTInfo
             {
                 FileName = GetFileName(fileFullName)
             };
-            result.Add(utInfo);
             return utInfo;
         }
 

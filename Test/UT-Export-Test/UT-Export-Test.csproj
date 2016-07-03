@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JT\when_export_nested_jt.cs" />
     <Compile Include="JT\when_export_jt_with_2_describes_in_same_level.cs" />
     <Compile Include="JT\when_export_simple_jt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
