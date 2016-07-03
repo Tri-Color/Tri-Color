@@ -10,7 +10,7 @@ namespace UTExport.Test.JT
     public class when_export_simple_jt
     {
         [Fact]
-        public void should_export_describe_and_it()
+        public void should_export_describe_and_it_with_double_quotes()
         {
             var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\simple-spec.js");
 
@@ -21,6 +21,22 @@ namespace UTExport.Test.JT
 
             UTInfo utInfo = utInfos.Single();
             Assert.Equal("simple-spec.js", utInfo.FileName);
+            Assert.Equal("describe", utInfo.Description);
+            Assert.Equal("it 1", utInfo.ThenList[0]);
+            Assert.Equal("it 2", utInfo.ThenList[1]);
+        }
+        
+        [Fact]
+        public void should_export_describe_and_it_with_single_quotes()
+        {
+            var fixtureFileFullName = Utils.GetFixtureFileFullName("JT\\Fixtures\\single-quotes-spec.js");
+
+            var jtManager = new JTManager();
+            List<UTInfo> utInfos = jtManager.Export(fixtureFileFullName);
+
+            Assert.Equal(1, utInfos.Count);
+
+            UTInfo utInfo = utInfos.Single();
             Assert.Equal("describe", utInfo.Description);
             Assert.Equal("it 1", utInfo.ThenList[0]);
             Assert.Equal("it 2", utInfo.ThenList[1]);
