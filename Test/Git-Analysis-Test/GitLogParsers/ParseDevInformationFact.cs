@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Git_Analysis.Parsers;
 using Xunit;
 
-namespace Git_Analysis_Test
+namespace Git_Analysis_Test.GitLogParsers
 {
     public class ParseDevInformationFact
     {

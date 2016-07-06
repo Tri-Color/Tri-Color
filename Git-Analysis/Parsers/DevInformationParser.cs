@@ -11,7 +11,6 @@ namespace Git_Analysis.Parsers
         const String pattern = @"^\[.*\]|^\w+/\w+[/\w]*|^\w+\s+&[\s+&\s+\w+]*|^\w+\s#";
         List<String> devNames;
         Regex regex;
-        const char USERSpliter = ' ';
 
         public DevInformationParser()
         {
@@ -41,29 +40,24 @@ namespace Git_Analysis.Parsers
             List<string> devs = new List<string>();
             foreach (var str in strArr)
             {
-                devs.AddRange(str.Split(USERSpliter));
+                devs.AddRange(str.Split(ParserUtil.slashSpliter));
             }
             return devs;
         }
 
         public string[] poundParse(string[] strArr)
         {
-            return transArrayToString(strArr).Trim().Split('#').Where(name => name != "").Select(name => name.Trim()).ToArray();
+            return ParserUtil.transArrayToString(strArr).Trim().Split('#').Where(name => name != "").Select(name => name.Trim()).ToArray();
         }
 
         public string[] bracketsParse(string[] strArr)
         {
-            return transArrayToString(strArr).Replace('[', ' ').Replace(']', ' ').Split('&').Select(name => name.Trim()).ToArray();
+            return ParserUtil.transArrayToString(strArr).Replace('[', ' ').Replace(']', ' ').Split('&').Select(name => name.Trim()).ToArray();
         }
 
         public string[] slashParse(string[] strArr)
         {
-            return transArrayToString(strArr).Split('/').Select(name => name.Trim()).ToArray();
-        }
-
-        public string transArrayToString(string[] strArr)
-        {
-            return strArr.Aggregate("", (current, str) => current + string.Format("{0}{1}", str, USERSpliter));
+            return ParserUtil.transArrayToString(strArr).Split('/').Select(name => name.Trim()).ToArray();
         }
     }
 }
