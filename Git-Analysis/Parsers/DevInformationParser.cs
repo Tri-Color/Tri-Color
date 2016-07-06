@@ -8,7 +8,7 @@ namespace Git_Analysis.Parsers
 {
     public class DevInformationParser : Parser
     {
-        const String pattern = @"^\[.*\]|^\w+/\w+[/\w]*|^\w+\s+&[\s+&\s+\w+]*";
+        const String pattern = @"^\[.*\]|^\w+/\w+[/\w]*|^\w+\s+&[\s+&\s+\w+]*|^\w+\s#";
         List<String> devNames;
         Regex regex;
         const char USERSpliter = ' ';
@@ -31,7 +31,7 @@ namespace Git_Analysis.Parsers
             {
                 var nameStr = bracketsParse(new []{match.ToString()});
                 nameStr = slashParse(nameStr);
-//                nameStr = ampersandParse(nameStr);
+                nameStr = poundParse(nameStr);
                 devNames.AddRange(getDevs(nameStr));
             }
         }
@@ -46,9 +46,9 @@ namespace Git_Analysis.Parsers
             return devs;
         }
 
-        public string[] ampersandParse(string[] strArr)
+        public string[] poundParse(string[] strArr)
         {
-            return transArrayToString(strArr).Split('&').Select(name => name.Trim()).ToArray();
+            return transArrayToString(strArr).Trim().Split('#').Where(name => name != "").Select(name => name.Trim()).ToArray();
         }
 
         public string[] bracketsParse(string[] strArr)
@@ -63,12 +63,7 @@ namespace Git_Analysis.Parsers
 
         public string transArrayToString(string[] strArr)
         {
-            var result = "";
-            foreach (var str in strArr)
-            {
-                result += string.Format("{0}{1}",str,USERSpliter);
-            }
-            return result;
+            return strArr.Aggregate("", (current, str) => current + string.Format("{0}{1}", str, USERSpliter));
         }
     }
 }

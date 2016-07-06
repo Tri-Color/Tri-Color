@@ -16,6 +16,7 @@ namespace Git_Analysis_Test
         [InlineData("wangdi/yongguang #N/A re-arrange tiles.", "wangdi,yongguang")]
         [InlineData("wangdi/yongguang/liuxia #N/A Extract all overview strategies.", "wangdi,yongguang,liuxia")]
         [InlineData("zhifang & liuxia & yongguang #7876 Fix some jt when ut review", "zhifang,liuxia,yongguang")]
+        [InlineData("liuxia #7686 Use same convension between overview models.", "liuxia")]
         public void should_parse_dev_from_comments(String comment,String devs)
         {
             DevInformationParser devParser = new DevInformationParser();
