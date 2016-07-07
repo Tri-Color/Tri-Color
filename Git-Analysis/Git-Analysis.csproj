@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Parsers\CommentInformationParser.cs" />
     <Compile Include="Parsers\ParserUtil.cs" />
     <Compile Include="Parsers\StoryInformationParser.cs" />
     <Compile Include="Parsers\DevInformationParser.cs" />

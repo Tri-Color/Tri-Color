@@ -67,6 +67,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GitLogParsers\ParseDevInformationFact.cs" />
+    <Compile Include="GitLogParsers\ParseCommentInformationFact .cs" />
     <Compile Include="GitLogParsers\ParseStoryInformationFact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
