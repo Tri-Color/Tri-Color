@@ -70,9 +70,12 @@
     <Compile Include="GitLogParsers\ParseCommentInformationFact .cs" />
     <Compile Include="GitLogParsers\ParseStoryInformationFact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\FileReaderFact.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Utils\git.log" />
+    <None Include="Utils\testFiles\git.log" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Git-Analysis\Git-Analysis.csproj">
@@ -80,6 +83,7 @@
       <Name>Git-Analysis</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
