@@ -13,19 +13,24 @@ namespace UTCli
     {
         static void Main(string[] args)
         {
-            ExportToTxt(new JTManager(), JTManager.IsJtFile,
-                "c:\\users\\administrator\\desktop\\jt.txt");
-
-            ExportToTxt(new MSpecManager(), Utils.IsCsFile,
-                "c:\\users\\administrator\\desktop\\mspec1.txt");
-
-            ExportToTxt(new XUnitManager(), Utils.IsCsFile,
-                "c:\\users\\administrator\\desktop\\xunit1.txt");
-
+//            ExportToFiles(UtTxtWriter.WriteToTxt);
+            ExportToFiles(UtJsonWriter.WriteToJson);
         }
 
-        private static void ExportToTxt(IUTManager utManager,
-            Func<FileInfo, bool> isUtFile, string outputFileName)
+        private static void ExportToFiles(Action<List<UTInfo>, string> writeToFileAction)
+        {
+            ExportToFile(new JTManager(), JTManager.IsJtFile,
+                "C:\\Tri-Color\\UT-API\\UTData\\jt.txt", writeToFileAction);
+
+            ExportToFile(new MSpecManager(), Utils.IsCsFile,
+                "C:\\Tri-Color\\UT-API\\UTData\\mspec.txt", writeToFileAction);
+
+            ExportToFile(new XUnitManager(), Utils.IsCsFile,
+                "C:\\Tri-Color\\UT-API\\UTData\\xunit.txt", writeToFileAction);
+        }
+
+        private static void ExportToFile(IUTManager utManager,
+            Func<FileInfo, bool> isUtFile, string outputFileName, Action<List<UTInfo>, string> writeAction)
         {
             string tigerFolderName = ConfigurationManager.AppSettings["TigerFolder"];
 
@@ -33,7 +38,7 @@ namespace UTCli
                 utManager.Export,
                 isUtFile);
 
-            UtTxtWriter.WriteToTxt(exportAllJTs, outputFileName);
+            writeAction(exportAllJTs, outputFileName);
         }
     }
 }

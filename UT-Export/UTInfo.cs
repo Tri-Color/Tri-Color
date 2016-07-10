@@ -1,10 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace UTExport
 {
     public class UTInfo
     {
+        public UTInfo()
+        {
+            WhenList = new List<string>();
+            ThenList = new List<string>();
+            Children = new List<UTInfo>();
+        }
+
         public UTInfo(string fileFullName)
         {
             FileName = Utils.GetFileName(fileFullName);
@@ -19,6 +27,7 @@ namespace UTExport
         public List<string> WhenList { get; set; }
         public List<string> ThenList { get; set; }
 
+        [JsonIgnore]
         public UTInfo Parent { get; set; }
         public List<UTInfo> Children { get; set; }
 
