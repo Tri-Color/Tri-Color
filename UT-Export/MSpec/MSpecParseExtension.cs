@@ -31,12 +31,12 @@ namespace UTExport.MSpec
 
         public static string ToBecause(this string line)
         {
-            return GetBecauseMatch(line).Groups[2].Value;
+            return GetBecauseMatch(line).Groups[2].Value.SplitIntoWords();
         }
 
         public static string ToIt(this string line)
         {
-            return GetItMatch(line).Groups[2].Value;
+            return GetItMatch(line).Groups[2].Value.SplitIntoWords();
         }
     }
 }

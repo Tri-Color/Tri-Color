@@ -18,11 +18,12 @@ namespace UTExport.Test.MSpec
             Assert.Equal(1, utInfos.Count);
             UTInfo utInfo = utInfos.Single();
             Assert.Equal("StandardSimpleMSpec.txt", utInfo.FileName);
+            Assert.Equal("standard simple m spec", utInfo.Description);
             Assert.Equal(1, utInfo.WhenList.Count);
-            Assert.Equal("do_something", utInfo.WhenList.Single());
+            Assert.Equal("do something", utInfo.WhenList.Single());
             Assert.Equal(2, utInfo.ThenList.Count);
-            Assert.Equal("should_do_one_thing", utInfo.ThenList.First());
-            Assert.Equal("should_do_another_thing", utInfo.ThenList.Last());
+            Assert.Equal("should do one thing", utInfo.ThenList.First());
+            Assert.Equal("should do another thing", utInfo.ThenList.Last());
         }
 
         [Fact]
@@ -59,5 +60,23 @@ namespace UTExport.Test.MSpec
             Assert.Equal(2, nested4UtInfo.ThenList.Count);
             Assert.Equal(0, nested4UtInfo.Children.Count);
         }
+
+        [Fact]
+        public void when_export_camel_named_mspec_string_into_splitted_words()
+        {
+            var mSpecManager = new MSpecManager();
+            List<UTInfo> utInfos =
+                mSpecManager.Export(
+                    TestUtils.GetFixtureFileFullName("MSpec\\Fixtures\\CamelMSpec.txt"));
+
+            UTInfo utInfo = utInfos.Single();
+            Assert.Equal("common case", utInfo.ThenList[0]);
+            Assert.Equal("with 275 days", utInfo.ThenList[1]);
+            Assert.Equal("with ACL list", utInfo.ThenList[2]);
+            Assert.Equal("underline style", utInfo.ThenList[3]);
+            Assert.Equal("underline style with ABBR word", utInfo.ThenList[4]);
+            Assert.Equal("end with ABBR", utInfo.ThenList[5]);
+        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace UTExport.JT
 
         public static string ToDescribeDescription(this string currentLine)
         {
-            return GetDescribeMatch(currentLine).Groups[2].Value;
+            return GetDescribeMatch(currentLine).Groups[2].Value.SplitIntoWords();
         }
         
         public static bool IsIt(this string currentLine)
@@ -26,7 +26,7 @@ namespace UTExport.JT
 
         public static string ToItDescription(this string currentLine)
         {
-            return GetItMatch(currentLine).Groups[2].Value;
+            return GetItMatch(currentLine).Groups[2].Value.SplitIntoWords();
         }
 
         private static Match GetDescribeMatch(string currentLine)

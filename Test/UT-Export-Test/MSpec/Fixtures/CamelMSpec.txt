@@ -1,0 +1,17 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using Machine.Specifications;
+
+namespace TestFixture
+{
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class CamelMSpec : ResourceSpec
+    {
+        It CommonCase = () => {};
+        It With275Days = () => {};
+        It WithACLList = () => {};
+        It underline_style = () => {};
+        It underline_style_with_ABBR_word = () => {};
+        It EndWithABBR = () => {};
+    }
+}

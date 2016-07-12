@@ -31,7 +31,7 @@ namespace UTExport.XUnit
 
         public static string ToMethodName(this string line)
         {
-            return GetMethodMatch(line).Groups[2].Value;
+            return GetMethodMatch(line).Groups[2].Value.SplitIntoWords();
         }
 
         private static Match GetMethodMatch(string line)

@@ -20,13 +20,13 @@ namespace UTCli
         private static void ExportToFiles(Action<List<UTInfo>, string> writeToFileAction)
         {
             ExportToFile(new JTManager(), JTManager.IsJtFile,
-                "C:\\Tri-Color\\UT-API\\UTData\\jt.txt", writeToFileAction);
+                "C:\\Tri-Color\\UT-API\\App_Data\\jt.json", writeToFileAction);
 
             ExportToFile(new MSpecManager(), Utils.IsCsFile,
-                "C:\\Tri-Color\\UT-API\\UTData\\mspec.txt", writeToFileAction);
+                "C:\\Tri-Color\\UT-API\\App_Data\\mspec.json", writeToFileAction);
 
             ExportToFile(new XUnitManager(), Utils.IsCsFile,
-                "C:\\Tri-Color\\UT-API\\UTData\\xunit.txt", writeToFileAction);
+                "C:\\Tri-Color\\UT-API\\App_Data\\xunit.json", writeToFileAction);
         }
 
         private static void ExportToFile(IUTManager utManager,

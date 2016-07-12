@@ -21,25 +21,17 @@ namespace UTExport.MSpec
                     int currentLevel = currentLine.GetLevel();
                     if (currentLine.IsClass())
                     {
-                        UTInfo parentUtInfo = GetClassParent(rootUtInfo, currentLevel);
-                        UTInfo currentUtInfo = new UTInfo(fullFileName)
-                        {
-                            Description = currentLine.ToClassName(),
-                            Parent = parentUtInfo
-                        };
-                        parentUtInfo.Children.Add(currentUtInfo);
+                        AddClass(fullFileName, rootUtInfo, currentLevel, currentLine);
                     }
 
                     if (currentLine.IsBecause())
                     {
-                        UTInfo parentClass = GetFieldParentClass(rootUtInfo, currentLevel);
-                        parentClass.WhenList.Add(currentLine.ToBecause());
+                        AddBecause(rootUtInfo, currentLevel, currentLine);
                     }
 
                     if (currentLine.IsIt())
                     {
-                        UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
-                        parentUTInfo.ThenList.Add(currentLine.ToIt());
+                        AddIt(rootUtInfo, currentLevel, currentLine);
                     }
                 }
             }
@@ -47,6 +39,29 @@ namespace UTExport.MSpec
             rootUtInfo.ClearEmptyChildren();
 
             return rootUtInfo.Children;
+        }
+
+        private void AddIt(UTInfo rootUtInfo, int currentLevel, string currentLine)
+        {
+            UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
+            parentUTInfo.ThenList.Add(currentLine.ToIt());
+        }
+
+        private void AddBecause(UTInfo rootUtInfo, int currentLevel, string currentLine)
+        {
+            UTInfo parentClass = GetFieldParentClass(rootUtInfo, currentLevel);
+            parentClass.WhenList.Add(currentLine.ToBecause());
+        }
+
+        private void AddClass(string fullFileName, UTInfo rootUtInfo, int currentLevel, string currentLine)
+        {
+            UTInfo parentUtInfo = GetClassParent(rootUtInfo, currentLevel);
+            UTInfo currentUtInfo = new UTInfo(fullFileName)
+            {
+                Description = currentLine.ToClassName(),
+                Parent = parentUtInfo
+            };
+            parentUtInfo.Children.Add(currentUtInfo);
         }
 
         private UTInfo GetClassParent(UTInfo utInfo, int currentLevel)
