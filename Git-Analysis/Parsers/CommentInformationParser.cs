@@ -8,7 +8,7 @@ namespace Git_Analysis.Parsers
 {
     public class CommentInformationParser : Parser
     {
-        const String pattern = @"#(\d|\/|\w)+( )+[a-zA-Z|( )|(.)|(\-)]+";
+        const String pattern = @"#(\d|\/|\w)+( )+[a-zA-Z|( )|(.)|(\-)|0-9|(,)]+";
         Regex regex;
 
         public string Comment { get; set; }
