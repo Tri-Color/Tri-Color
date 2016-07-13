@@ -9,7 +9,7 @@ namespace Git_Analysis_Test.Utils
     {
         string file_path = Path.GetFullPath(Environment.CurrentDirectory+ @"..\..\..\Utils\testFiles\git.log");
         [Fact]
-        public void should_recognize_commit_infomation()
+        public void should_recognize_commit_information()
         {
             string oneline;
             using (FileReader reader = new FileReader(file_path))
@@ -18,9 +18,17 @@ namespace Git_Analysis_Test.Utils
                 oneline = reader.ReadLine();
                 reader.Close();
             }
-
             Assert.StartsWith("hash:", oneline);
         }
 
+        [Fact]
+        public void should_recognize_comment_information()
+        {
+            using (FileReader reader = new FileReader(file_path))
+            {
+                reader.Open();
+                var comment = reader.ReadLine();
+            }
+        }
     }
 }
