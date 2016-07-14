@@ -23,6 +23,19 @@ namespace UT_API
                 {
                     httpMethod = new HttpMethodConstraint(HttpMethod.Get)
                 });
+
+            httpConfiguration.Routes.MapHttpRoute(
+                "Search",
+                "Search",
+                new
+                {
+                    controller = "UT",
+                    action = "Search"
+                },
+                new
+                {
+                    httpMethod = new HttpMethodConstraint(HttpMethod.Get)
+                });
         }
     }
 }

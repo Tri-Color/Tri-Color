@@ -42,5 +42,14 @@ namespace UTExport
                 .ToList()
                 .ForEach(i => Children.Remove(i));
         }
+
+        public bool Contains(string searchKeyword)
+        {
+            string lowerSearchKeyword = searchKeyword.ToLower();
+            return Description.ToLower().Contains(lowerSearchKeyword)
+                   || WhenList.Any(when => when.ToLower().Contains(lowerSearchKeyword))
+                   || ThenList.Any(then => then.ToLower().Contains(lowerSearchKeyword))
+                   || Children.Any(child => child.Contains(lowerSearchKeyword));
+        }
     }
 }

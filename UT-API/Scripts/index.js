@@ -1,29 +1,40 @@
 "use strict";
 
 $(function(){
-	var allUtData;
+	$("#searchButton").on("click", onSearch);
+	$("#listAllButton").on("click", loadAllTests);
 
-	loadAllTests();
+	function onSearch(){
+		var searchKeyword = $("#searchKeyword").val();
+		// var uri = "Search?query={0}".format(searchKeyword);
+		console.log($("#searchKeyword"))
+		var uri = "Search?query=" + searchKeyword;
 
-	$("input").first().on("input", onSearchCriteriaChanged);
-	// $("#searchButton").on("click", onSearch);
-	// $("#listAllButton").on("click", loadAllTests);
-
-	function loadAllTests(){
-		$.get( "UnitTests", function( data ) {
-			allUtData = data;
-			appendTopUlToDocument(data["mspecInfos"], "API Tests");
-			appendTopUlToDocument(data["xunitInfos"], "Unit Tests");
-			appendTopUlToDocument(data["jtInfos"], "JavaScript Tests");
+		$.get(uri, function( data ) {
+			renderUtData(data);
 		});
 	}
 
-	function appendTopUlToDocument(utData, title){
-		var utTitleElement = $("<h3/>").text(title);
-		var bodyElement = $("body");
-	  	bodyElement.append(utTitleElement);
+	function loadAllTests(){
+		$.get( "UnitTests", function( data ) {
+			renderUtData(data);
+		});
+	}
 
-		appendUtInfoElement(bodyElement, utData);
+	function renderUtData(data){
+		var testListElement = $("#testList");
+		testListElement.children().empty();
+
+		appendTopUlToDocument(testListElement, data["mspecInfos"], "API Tests");
+		appendTopUlToDocument(testListElement, data["xunitInfos"], "Unit Tests");
+		appendTopUlToDocument(testListElement, data["jtInfos"], "JavaScript Tests");
+	}
+
+	function appendTopUlToDocument(parentElement, utData, title){
+		var utTitleElement = $("<h3/>").text(title);
+	  	parentElement.append(utTitleElement);
+
+		appendUtInfoElement(parentElement, utData);
 	}
 
 	function appendUtInfoElement(parentElement, utInfos){
@@ -53,26 +64,5 @@ $(function(){
 	function appendDivElement(element, text){
 		var divElement = $("<div/>").text(text);
 		element.append(divElement);
-	}
-
-	function onSearchCriteriaChanged(){
-		var keyword = $(this).val().trim();
-		var allUtLiElements = $("body ul li");
-
-		for(var i = 0; i < allUtLiElements.length; i++){
-			var liElement = allUtLiElements.eq(i);
-
-			var allDivElements = liElement.find("div");
-			for(var j = 0; j < allDivElements.length; j++){
-				var divElement = allDivElements.eq(j);
-
-				if(divElement.text().indexOf(keyword) > -1){
-					liElement.css("display", "list-item");
-				}
-				else{
-					liElement.css("display", "none");
-				}
-			}
-		}
 	}
 });
