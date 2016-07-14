@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using UTExport;
 using UTExport.JT;
 using UTExport.MSpec;
@@ -32,13 +33,26 @@ namespace UTCli
         private static void ExportToFile(IUTManager utManager,
             Func<FileInfo, bool> isUtFile, string outputFileName, Action<List<UTInfo>, string> writeAction)
         {
-            string tigerFolderName = ConfigurationManager.AppSettings["TigerFolder"];
+            List<string> folderList = GetFolders();
 
-            List<UTInfo> exportAllJTs = Utils.ExportAllUTs(tigerFolderName,
-                utManager.Export,
-                isUtFile);
+            List<UTInfo> utInfos = folderList
+                .SelectMany(folder => Utils.ExportAllUTs(
+                    folder,
+                    utManager.Export,
+                    isUtFile))
+                .ToList();
 
-            writeAction(exportAllJTs, outputFileName);
+            writeAction(utInfos, outputFileName);
+        }
+
+        private static List<string> GetFolders()
+        {
+            return new List<string>
+            {
+                ConfigurationManager.AppSettings["TigerFolder"],
+                ConfigurationManager.AppSettings["MyMobilityFolder"],
+                ConfigurationManager.AppSettings["MyMobilityAppsFolder"]
+            };
         }
     }
 }

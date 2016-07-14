@@ -1,11 +1,22 @@
 "use strict";
 
 $(function(){
-	$.get( "UnitTests", function( data ) {
-	  appendTopUlToDocument(data["mspecInfos"], "MSpec");
-	  appendTopUlToDocument(data["xunitInfos"], "XUnit");
-	  appendTopUlToDocument(data["jtInfos"], "JT");
-	});
+	var allUtData;
+
+	loadAllTests();
+
+	$("input").first().on("input", onSearchCriteriaChanged);
+	// $("#searchButton").on("click", onSearch);
+	// $("#listAllButton").on("click", loadAllTests);
+
+	function loadAllTests(){
+		$.get( "UnitTests", function( data ) {
+			allUtData = data;
+			appendTopUlToDocument(data["mspecInfos"], "API Tests");
+			appendTopUlToDocument(data["xunitInfos"], "Unit Tests");
+			appendTopUlToDocument(data["jtInfos"], "JavaScript Tests");
+		});
+	}
 
 	function appendTopUlToDocument(utData, title){
 		var utTitleElement = $("<h3/>").text(title);
@@ -42,5 +53,26 @@ $(function(){
 	function appendDivElement(element, text){
 		var divElement = $("<div/>").text(text);
 		element.append(divElement);
+	}
+
+	function onSearchCriteriaChanged(){
+		var keyword = $(this).val().trim();
+		var allUtLiElements = $("body ul li");
+
+		for(var i = 0; i < allUtLiElements.length; i++){
+			var liElement = allUtLiElements.eq(i);
+
+			var allDivElements = liElement.find("div");
+			for(var j = 0; j < allDivElements.length; j++){
+				var divElement = allDivElements.eq(j);
+
+				if(divElement.text().indexOf(keyword) > -1){
+					liElement.css("display", "list-item");
+				}
+				else{
+					liElement.css("display", "none");
+				}
+			}
+		}
 	}
 });

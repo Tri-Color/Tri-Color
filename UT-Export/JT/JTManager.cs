@@ -9,7 +9,9 @@ namespace UTExport.JT
         public static bool IsJtFile(FileInfo f)
         {
             string fullName = f.FullName;
-            return fullName.EndsWith("-spec.es6") || fullName.EndsWith("-spec.js");
+            return fullName.EndsWith("-spec.es6")
+                || fullName.EndsWith("-spec.js")
+                || fullName.EndsWith("-spec.jsx");
         }
 
         public List<UTInfo> Export(string fileFullName)

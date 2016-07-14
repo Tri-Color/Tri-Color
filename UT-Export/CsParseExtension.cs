@@ -28,11 +28,11 @@ namespace UTExport
         private static string SplitCamelToWords(this string line)
         {
             Match match = new Regex(@"
-\d+ 
+\d+                                 #number is a word
 | 
-([A-Z]+((?=[A-Z_][0-9a-z])|\b)) 
+([A-Z]+((?=[A-Z_][0-9a-z])|\b))     #abbreviation is a word
 | 
-(\b|[A-Z]|(?<=_)) [a-z]+ ((?=[A-Z0-9\s_])|\b)", RegexOptions.IgnorePatternWhitespace).Match(line);
+(\b|[A-Z]|(?<=_)) [a-z]+ ((?=[A-Z0-9\s_])|\b)   #camel word", RegexOptions.IgnorePatternWhitespace).Match(line);
 
             if (!match.Success)
             {
