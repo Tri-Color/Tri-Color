@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace Git_Analysis.Utils
 {
@@ -45,6 +46,43 @@ namespace Git_Analysis.Utils
                 return steamReader.ReadLine();
             }
             return null;
+        }
+
+        public string GetOneCommit()
+        {
+            string tmp = ReadLine();
+            StringBuilder builder = new StringBuilder();
+            builder.Append(tmp);
+/*            if (tmp != null && IsCommitInfo(tmp))
+                return */
+            var line = ReadLine();
+            while (!IsCommitInfo(line) )
+            {
+                builder.Append(line);
+                line = ReadLine();
+            }
+            return builder.ToString();
+        }
+
+        static bool IsCommitInfo(string line)
+        {
+            return line.Contains("hash:") &&
+                line.Contains("addTime:") &&
+                line.Contains("commitTime:") &&
+                line.Contains("comment:");
+        }
+
+        public long GetCommitCount()
+        {
+            var count = 0;
+            var line = ReadLine();
+            while (line != null)
+            {
+                if (IsCommitInfo(line))
+                    count++;
+                line = ReadLine();
+            }
+            return count;
         }
 
         public void Dispose()

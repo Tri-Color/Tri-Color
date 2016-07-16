@@ -27,6 +27,8 @@ namespace Git_Analysis_Test.Analysis
             "comment:[wangjian & shengqi & jijie] #1919 Change comments length " +
             "from 255 to 500 characters for Upload teq feature, and fix some ie issue for text-area.",
             "wangjian,shengqi,jijie","1919", "Change comments length from 255 to 500 characters for Upload teq feature, and fix some ie issue for text-area.")]
+        [InlineData("hash:f4b5364|addTime:2016-07-07|commitTime:2016-07-07| " +
+            "comment:[wangtao & chaohui] #8041 Type of Service drop down should list all countries", "chaohui,wangtao", "8041", "Type of Service drop down should list all countries")]
         public void should_recogenize_dev_story_comment_from_commit(string commitInfo,string devs,string story,string comment)
         {
             GitLogAnalysis analysis = new GitLogAnalysis(commitInfo);
