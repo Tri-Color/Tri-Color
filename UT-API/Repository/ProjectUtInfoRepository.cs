@@ -10,7 +10,7 @@ namespace UT_API.Repository
 {
     public class ProjectUtInfoRepository
     {
-        private static List<ProjectUtInfo> allProjectUtInfos;
+        private static readonly List<ProjectUtInfo> allProjectUtInfos;
 
         static ProjectUtInfoRepository()
         {
@@ -20,7 +20,7 @@ namespace UT_API.Repository
             allProjectUtInfos = new List<ProjectUtInfo> { tigerUtInfos, myMobilityUtInfos };
         }
 
-        public static List<ProjectUtInfo> GetProjectUtInfos(string query)
+        public List<ProjectUtInfo> GetProjectUtInfos(string query)
         {
             return allProjectUtInfos
                 .Select(projectUtInfo => new ProjectUtInfo

@@ -8,6 +8,13 @@ namespace UT_API.Controller
 {
     public class UTController : ApiController
     {
+        private readonly ProjectUtInfoRepository projectUtInfoRepository;
+
+        public UTController(ProjectUtInfoRepository projectUtInfoRepository)
+        {
+            this.projectUtInfoRepository = projectUtInfoRepository;
+        }
+
         public HttpResponseMessage Get()
         {
             return GetResponse();
@@ -16,7 +23,7 @@ namespace UT_API.Controller
         private HttpResponseMessage GetResponse(string query = null)
         {
             return Request.CreateResponse(HttpStatusCode.OK,
-                ProjectUtInfoRepository.GetProjectUtInfos(query),
+                projectUtInfoRepository.GetProjectUtInfos(query),
                 new JsonMediaTypeFormatter());
         }
 
