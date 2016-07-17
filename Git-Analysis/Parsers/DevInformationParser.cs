@@ -8,20 +8,16 @@ namespace Git_Analysis.Parsers
 {
     public class DevInformationParser : Parser
     {
-        const String pattern = @"^\[.*\]|^\w+/\w+[/\w]*|^\w+\s+&[\s+&\s+\w+]*|^\w+\s#";
-        List<String> devNames;
+        const string pattern = @"^\[.*\]|^\w+/\w+[/\w]*|^\w+\s+&[\s+&\s+\w+]*|^\w+\s#";
         Regex regex;
 
         public DevInformationParser()
         {
             regex = new Regex(pattern);
-            devNames = new List<string>();
+            DevNames = new List<string>();
         }
 
-        public List<string> DevNames
-        {
-            get { return devNames; }
-        }
+        public List<string> DevNames { get; set; }
 
         public void parse(string str)
         {
@@ -31,7 +27,7 @@ namespace Git_Analysis.Parsers
                 var nameStr = bracketsParse(new []{match.ToString()});
                 nameStr = slashParse(nameStr);
                 nameStr = poundParse(nameStr);
-                devNames.AddRange(getDevs(nameStr));
+                DevNames.AddRange(getDevs(nameStr));
             }
         }
 

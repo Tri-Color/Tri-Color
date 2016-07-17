@@ -53,8 +53,6 @@ namespace Git_Analysis.Utils
             string tmp = ReadLine();
             StringBuilder builder = new StringBuilder();
             builder.Append(tmp);
-/*            if (tmp != null && IsCommitInfo(tmp))
-                return */
             var line = ReadLine();
             while (!IsCommitInfo(line) )
             {
