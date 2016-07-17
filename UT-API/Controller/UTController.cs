@@ -21,9 +21,9 @@ namespace UT_API.Controller
 
         private HttpResponseMessage GetUtInfosResponse(string query = null)
         {
-            List<UTInfo> mspecInfos = GetUtInfos("mspecFileName", query);
-            List<UTInfo> xunitInfos = GetUtInfos("xunitFileName", query);
-            List<UTInfo> jtInfos = GetUtInfos("jtFileName", query);
+            List<UTInfo> mspecInfos = GetUtInfos(UtConfigKeys.MspceConfigKey, query);
+            List<UTInfo> xunitInfos = GetUtInfos(UtConfigKeys.XUnitConfigKey, query);
+            List<UTInfo> jtInfos = GetUtInfos(UtConfigKeys.JTConfigKey, query);
 
             return Request.CreateResponse(HttpStatusCode.OK, new
             {

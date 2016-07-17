@@ -44,7 +44,10 @@ namespace UTExport.JT
                     if (currentLine.IsIt())
                     {
                         UTInfo parentUTInfo = GetItParent(rootUtInfo, currentLevel);
-                        parentUTInfo.ThenList.Add(currentLine.ToItDescription());
+                        parentUTInfo.ThenList.Add(new ThenInfo
+                        {
+                            Description = currentLine.ToItDescription()
+                        });
                     }
                 }
             }

@@ -22,8 +22,8 @@ namespace UTExport.Test.JT
             UTInfo utInfo = utInfos.Single();
             Assert.Equal("simple-spec.js", utInfo.FileName);
             Assert.Equal("describe", utInfo.Description);
-            Assert.Equal("it 1", utInfo.ThenList[0]);
-            Assert.Equal("it 2", utInfo.ThenList[1]);
+            Assert.Equal("it 1", utInfo.ThenList[0].Description);
+            Assert.Equal("it 2", utInfo.ThenList[1].Description);
         }
         
         [Fact]
@@ -38,8 +38,8 @@ namespace UTExport.Test.JT
 
             UTInfo utInfo = utInfos.Single();
             Assert.Equal("describe", utInfo.Description);
-            Assert.Equal("it 1", utInfo.ThenList[0]);
-            Assert.Equal("it 2", utInfo.ThenList[1]);
+            Assert.Equal("it 1", utInfo.ThenList[0].Description);
+            Assert.Equal("it 2", utInfo.ThenList[1].Description);
         }
 
         [Fact]

@@ -28,7 +28,7 @@ namespace UTExport
         private static string SplitCamelToWords(this string line)
         {
             Match match = new Regex(@"
-\d+                                 #number is a word
+[\d.]+                                 #number is a word
 | 
 ([A-Z]+((?=[A-Z_][0-9a-z])|\b))     #abbreviation is a word
 | 

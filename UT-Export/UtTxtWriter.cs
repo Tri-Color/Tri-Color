@@ -60,7 +60,7 @@ namespace UTExport
             }
         }
 
-        private static int GetElementCount(UTInfo utInfo, Func<UTInfo, List<string>> func)
+        private static int GetElementCount<T>(UTInfo utInfo, Func<UTInfo, List<T>> func)
         {
             return func(utInfo).Count + utInfo.Children.Sum(i => GetElementCount(i, func));
         }

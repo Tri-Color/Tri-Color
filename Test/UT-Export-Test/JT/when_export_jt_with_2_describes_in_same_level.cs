@@ -21,13 +21,13 @@ namespace UTExport.Test.JT
 
             UTInfo utInfo1 = utInfos.First();
             Assert.Equal("describe 1", utInfo1.Description);
-            Assert.Equal("it 1.1", utInfo1.ThenList[0]);
-            Assert.Equal("it 1.2", utInfo1.ThenList[1]);
+            Assert.Equal("it 1.1", utInfo1.ThenList[0].Description);
+            Assert.Equal("it 1.2", utInfo1.ThenList[1].Description);
             
             UTInfo utInfo2 = utInfos.Last();
             Assert.Equal("describe 2", utInfo2.Description);
-            Assert.Equal("it 2.1", utInfo2.ThenList[0]);
-            Assert.Equal("it 2.2", utInfo2.ThenList[1]);
+            Assert.Equal("it 2.1", utInfo2.ThenList[0].Description);
+            Assert.Equal("it 2.2", utInfo2.ThenList[1].Description);
         }
     }
 }

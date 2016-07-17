@@ -19,12 +19,12 @@ namespace UTExport.Test.XUnit
             UTInfo utInfo = utInfos.Single();
             Assert.Equal("GeneralXUnit.txt", utInfo.FileName);
             Assert.Equal(0, utInfo.WhenList.Count);
-            Assert.Equal("GeneralXUnit", utInfo.Description);
+            Assert.Equal("general x unit", utInfo.Description);
             Assert.Equal(4, utInfo.ThenList.Count);
-            Assert.Equal("FactMethodName", utInfo.ThenList[0]);
-            Assert.Equal("FactMethodName2", utInfo.ThenList[1]);
-            Assert.Equal("TheoryMethodName", utInfo.ThenList[2]);
-            Assert.Equal("TheoryMethodName2", utInfo.ThenList[3]);
+            Assert.Equal("fact method name", utInfo.ThenList[0].Description);
+            Assert.Equal("fact method name 2", utInfo.ThenList[1].Description);
+            Assert.Equal("theory method name", utInfo.ThenList[2].Description);
+            Assert.Equal("theory method name 2", utInfo.ThenList[3].Description);
         }
     }
 }

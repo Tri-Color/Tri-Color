@@ -39,7 +39,10 @@ namespace UTExport.XUnit
                     else if (isFact && currentLine.IsMethod())
                     {
                         UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
-                        parentUTInfo.ThenList.Add(currentLine.ToMethodName());
+                        parentUTInfo.ThenList.Add(new ThenInfo
+                        {
+                            Description = currentLine.ToMethodName()
+                        });
                         isFact = false;
                     }
                 }

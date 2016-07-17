@@ -9,7 +9,7 @@ namespace UTExport
         public UTInfo()
         {
             WhenList = new List<string>();
-            ThenList = new List<string>();
+            ThenList = new List<ThenInfo>();
             Children = new List<UTInfo>();
         }
 
@@ -18,14 +18,14 @@ namespace UTExport
             FileName = Utils.GetFileName(fileFullName);
 
             WhenList = new List<string>();
-            ThenList = new List<string>();
+            ThenList = new List<ThenInfo>();
             Children = new List<UTInfo>();
         }
 
         public string FileName { get; set; }
         public string Description { get; set; }
         public List<string> WhenList { get; set; }
-        public List<string> ThenList { get; set; }
+        public List<ThenInfo> ThenList { get; set; }
 
         [JsonIgnore]
         public UTInfo Parent { get; set; }
@@ -48,8 +48,19 @@ namespace UTExport
             string lowerSearchKeyword = searchKeyword.ToLower();
             return Description.ToLower().Contains(lowerSearchKeyword)
                    || WhenList.Any(when => when.ToLower().Contains(lowerSearchKeyword))
-                   || ThenList.Any(then => then.ToLower().Contains(lowerSearchKeyword))
+                   || ThenList.Any(then => then.Description.ToLower().Contains(lowerSearchKeyword))
                    || Children.Any(child => child.Contains(lowerSearchKeyword));
+        }
+    }
+
+    public class ThenInfo
+    {
+        public string Description { get; set; }
+        public bool IsParameterized { get; set; }
+
+        public override string ToString()
+        {
+            return Description;
         }
     }
 }

@@ -22,8 +22,8 @@ namespace UTExport.Test.MSpec
             Assert.Equal(1, utInfo.WhenList.Count);
             Assert.Equal("do something", utInfo.WhenList.Single());
             Assert.Equal(2, utInfo.ThenList.Count);
-            Assert.Equal("should do one thing", utInfo.ThenList.First());
-            Assert.Equal("should do another thing", utInfo.ThenList.Last());
+            Assert.Equal("should do one thing", utInfo.ThenList.First().Description);
+            Assert.Equal("should do another thing", utInfo.ThenList.Last().Description);
         }
 
         [Fact]
@@ -70,12 +70,12 @@ namespace UTExport.Test.MSpec
                     TestUtils.GetFixtureFileFullName("MSpec\\Fixtures\\CamelMSpec.txt"));
 
             UTInfo utInfo = utInfos.Single();
-            Assert.Equal("common case", utInfo.ThenList[0]);
-            Assert.Equal("with 275 days", utInfo.ThenList[1]);
-            Assert.Equal("with ACL list", utInfo.ThenList[2]);
-            Assert.Equal("underline style", utInfo.ThenList[3]);
-            Assert.Equal("underline style with ABBR word", utInfo.ThenList[4]);
-            Assert.Equal("end with ABBR", utInfo.ThenList[5]);
+            Assert.Equal("common case", utInfo.ThenList[0].Description);
+            Assert.Equal("with 275 days", utInfo.ThenList[1].Description);
+            Assert.Equal("with ACL list", utInfo.ThenList[2].Description);
+            Assert.Equal("underline style", utInfo.ThenList[3].Description);
+            Assert.Equal("underline style with ABBR word", utInfo.ThenList[4].Description);
+            Assert.Equal("end with ABBR", utInfo.ThenList[5].Description);
         }
 
     }

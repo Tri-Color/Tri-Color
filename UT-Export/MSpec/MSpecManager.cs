@@ -44,7 +44,7 @@ namespace UTExport.MSpec
         private void AddIt(UTInfo rootUtInfo, int currentLevel, string currentLine)
         {
             UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
-            parentUTInfo.ThenList.Add(currentLine.ToIt());
+            parentUTInfo.ThenList.Add(new ThenInfo {Description = currentLine.ToIt()});
         }
 
         private void AddBecause(UTInfo rootUtInfo, int currentLevel, string currentLine)
