@@ -1,4 +1,5 @@
 ﻿using Git_Analysis.Analysis;
+using Git_Analysis.Domain;
 using Xunit;
 
 namespace Git_Analysis_Test.Analysis
@@ -18,7 +19,8 @@ namespace Git_Analysis_Test.Analysis
                 "database when dropping existing publications and subscriptions")]
         public void should_get_comment_info_from_commmit(string commitInfo,string comment)
         {
-            GitLogAnalysis analysis = new GitLogAnalysis(commitInfo);
+            GitLogAnalysis analysis = new GitLogAnalysis();
+            analysis.GetParseCommitInformation(new CommitBlockInfo{CommitInfo = commitInfo,ParseInfo = ""});
             Assert.Equal(comment,analysis.GetCommentFromCommit());
         }
 
@@ -31,7 +33,8 @@ namespace Git_Analysis_Test.Analysis
             "comment:[wangtao & chaohui] #8041 Type of Service drop down should list all countries", "chaohui,wangtao", "8041", "Type of Service drop down should list all countries")]
         public void should_recogenize_dev_story_comment_from_commit(string commitInfo,string devs,string story,string comment)
         {
-            GitLogAnalysis analysis = new GitLogAnalysis(commitInfo);
+            GitLogAnalysis analysis = new GitLogAnalysis();
+            analysis.GetParseCommitInformation(new CommitBlockInfo { CommitInfo = commitInfo,ParseInfo = ""});
             foreach (var dev in devs.Split(','))
             {
                 Assert.True(analysis.GetDevs().Contains(dev));

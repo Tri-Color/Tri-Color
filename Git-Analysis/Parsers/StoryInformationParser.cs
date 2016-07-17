@@ -21,7 +21,10 @@ namespace Git_Analysis.Parsers
         public void parse(string str)
         {
             var matches = regex.Matches(str);
-            StoryNum = poundParse(new[] {matches[0].ToString()})[0];
+            foreach (var match in matches)
+            {
+                StoryNum = poundParse(new[] { match.ToString() })[0];
+            }
         }
 
         public string[] poundParse(string[] strArr)

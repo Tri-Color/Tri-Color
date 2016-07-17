@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\AnalysisRunner.cs" />
     <Compile Include="Analysis\GitLogAnalysis.cs" />
+    <Compile Include="Domain\CommitBlockInfo.cs" />
     <Compile Include="Domain\CommitInformation.cs" />
     <Compile Include="Parsers\CommentInformationParser.cs" />
     <Compile Include="Parsers\ParserUtil.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Git_Analysis.Domain;
 
 namespace Git_Analysis.Utils
 {
@@ -48,18 +49,21 @@ namespace Git_Analysis.Utils
             return null;
         }
 
-        public string GetOneCommit()
+        public CommitBlockInfo GetOneCommit()
         {
             string tmp = ReadLine();
             StringBuilder builder = new StringBuilder();
-            builder.Append(tmp);
             var line = ReadLine();
-            while (!IsCommitInfo(line) )
+            while (!IsCommitInfo(line))
             {
                 builder.Append(line);
                 line = ReadLine();
             }
-            return builder.ToString();
+           return  new CommitBlockInfo
+            {
+                CommitInfo = tmp,
+                ParseInfo = builder.ToString()
+            };
         }
 
         static bool IsCommitInfo(string line)
