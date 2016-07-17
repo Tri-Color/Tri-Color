@@ -1,4 +1,4 @@
-namespace UT_API.Controller
+namespace UT_API
 {
     public class UtConfigKeys
     {
