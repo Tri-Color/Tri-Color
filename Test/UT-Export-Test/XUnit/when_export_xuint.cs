@@ -24,7 +24,9 @@ namespace UTExport.Test.XUnit
             Assert.Equal("fact method name", utInfo.ThenList[0].Description);
             Assert.Equal("fact method name 2", utInfo.ThenList[1].Description);
             Assert.Equal("theory method name", utInfo.ThenList[2].Description);
+            Assert.True(utInfo.ThenList[2].IsParameterized);
             Assert.Equal("theory method name 2", utInfo.ThenList[3].Description);
+            Assert.True(utInfo.ThenList[3].IsParameterized);
         }
     }
 }

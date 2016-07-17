@@ -13,6 +13,7 @@ namespace UTExport.XUnit
             using (var streamReader = new StreamReader(fullFileName))
             {
                 bool isFact = false;
+                bool isParameterized = false;
 
                 while (!streamReader.EndOfStream)
                 {
@@ -23,27 +24,25 @@ namespace UTExport.XUnit
                     int currentLevel = currentLine.GetLevel();
                     if (currentLine.IsClass())
                     {
-                        UTInfo parentUtInfo = GetClassParent(rootUtInfo, currentLevel);
-                        UTInfo currentUtInfo = new UTInfo(fullFileName)
-                        {
-                            Description = currentLine.ToClassName(),
-                            Parent = parentUtInfo
-                        };
-                        parentUtInfo.Children.Add(currentUtInfo);
+                        AddNewUtInfo(fullFileName, rootUtInfo, currentLevel, currentLine);
                     }
-                    else if (currentLine.IsFact() || currentLine.IsTheory() ||
-                             currentLine.IsInlineData())
+                    else if (currentLine.IsFact() || 
+                        currentLine.IsTheory() ||
+                        currentLine.IsInlineData())
                     {
                         isFact = true;
+                        isParameterized = currentLine.IsTheory() || currentLine.IsInlineData();
                     }
                     else if (isFact && currentLine.IsMethod())
                     {
                         UTInfo parentUTInfo = GetFieldParentClass(rootUtInfo, currentLevel);
                         parentUTInfo.ThenList.Add(new ThenInfo
                         {
-                            Description = currentLine.ToMethodName()
+                            Description = currentLine.ToMethodName(),
+                            IsParameterized = isParameterized
                         });
                         isFact = false;
+                        isParameterized = false;
                     }
                 }
             }
@@ -51,6 +50,18 @@ namespace UTExport.XUnit
             rootUtInfo.ClearEmptyChildren();
 
             return rootUtInfo.Children;
+        }
+
+        private void AddNewUtInfo(string fullFileName, UTInfo rootUtInfo, int currentLevel,
+            string currentLine)
+        {
+            UTInfo parentUtInfo = GetClassParent(rootUtInfo, currentLevel);
+            UTInfo currentUtInfo = new UTInfo(fullFileName)
+            {
+                Description = currentLine.ToClassName(),
+                Parent = parentUtInfo
+            };
+            parentUtInfo.Children.Add(currentUtInfo);
         }
 
         private UTInfo GetClassParent(UTInfo utInfo, int currentLevel)

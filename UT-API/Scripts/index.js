@@ -47,17 +47,26 @@ $(function(){
 
 			appendDivElement(liElement, utInfo.Description);
 
-			appendArrayAsDivs(liElement, utInfo.WhenList);
-			appendArrayAsDivs(liElement, utInfo.ThenList);
+			appendWhenListAsDivs(liElement, utInfo.WhenList);
+			appendThenListAsDivs(liElement, utInfo.ThenList);
 
 			var children = utInfo.Children;
 			appendUtInfoElement(liElement, children);
 		});
 	}
 
-	function appendArrayAsDivs(element, array){
+	function appendWhenListAsDivs(element, array){
 		_.each(array, function(item){
 			appendDivElement(element, item);
+		})
+	}
+
+	function appendThenListAsDivs(element, array){
+		_.each(array, function(item){
+			var text = !!item.IsParameterized ? 
+				"[Parameterized] " + item.Description:
+				item.Description
+			appendDivElement(element, text);
 		})
 	}
 
