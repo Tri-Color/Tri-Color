@@ -35,16 +35,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsParseExtension.cs" />
+    <Compile Include="ExportUtils.cs" />
     <Compile Include="IUTManager.cs" />
     <Compile Include="MSpec\MSpecParseExtension.cs" />
+    <Compile Include="ProjectUtInfo.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="JT\JTManager.cs" />
     <Compile Include="JT\JtParseExtension.cs" />

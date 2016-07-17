@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace UTExport
@@ -27,25 +24,6 @@ namespace UTExport
         public static Match GetMatch(this string currentLine, string pattern)
         {
             return new Regex(pattern).Match(currentLine);
-        }
-
-        public static List<UTInfo> ExportAllUTs(string path,
-            Func<string, IEnumerable<UTInfo>> exportFunc, Func<FileInfo, bool> isUtFile)
-        {
-            var directoryInfo = new DirectoryInfo(path);
-
-            IEnumerable<UTInfo> utInfosFromFiles = directoryInfo
-                .GetFiles()
-                .Where(isUtFile)
-                .ToList()
-                .SelectMany(d => exportFunc(d.FullName));
-
-            IEnumerable<UTInfo> utInfosFromDirectories =
-                directoryInfo.GetDirectories()
-                    .SelectMany(d => ExportAllUTs(d.FullName, exportFunc, isUtFile));
-
-            IEnumerable<UTInfo> result = utInfosFromDirectories.Union(utInfosFromFiles);
-            return result.ToList();
         }
 
         public static bool IsCsFile(FileInfo arg)

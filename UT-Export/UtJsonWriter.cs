@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 
 namespace UTExport
 {
     public class UtJsonWriter
     {
-        public static void WriteToJson(List<UTInfo> utInfos, string fileName)
+        public static void WriteToJson<T>(T @object, string fileName)
         {
             using (var streamWriter = new StreamWriter(fileName))
             {
-                string jsonString = JsonConvert.SerializeObject(utInfos, Formatting.Indented, new JsonSerializerSettings
+                string jsonString = JsonConvert.SerializeObject(@object, Formatting.Indented, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects

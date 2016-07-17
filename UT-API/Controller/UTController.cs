@@ -16,55 +16,62 @@ namespace UT_API.Controller
     {
         public HttpResponseMessage Get()
         {
-            return GetUtInfosResponse();
+            return GetResponse();
         }
 
-        private HttpResponseMessage GetUtInfosResponse(string query = null)
+        private HttpResponseMessage GetResponse(string query = null)
         {
-            List<UTInfo> mspecInfos = GetUtInfos(UtConfigKeys.MspceConfigKey, query);
-            List<UTInfo> xunitInfos = GetUtInfos(UtConfigKeys.XUnitConfigKey, query);
-            List<UTInfo> jtInfos = GetUtInfos(UtConfigKeys.JTConfigKey, query);
+            ProjectUtInfo tigerUtInfos = GetProjectUtInfo(UtConfigKeys.Tiger, query);
+            ProjectUtInfo myMobilityUtInfos = GetProjectUtInfo(UtConfigKeys.MyMobility, query);
 
-            return Request.CreateResponse(HttpStatusCode.OK, new
-            {
-                mspecInfos,
-                xunitInfos,
-                jtInfos
-            }, new JsonMediaTypeFormatter());
+            return Request.CreateResponse(HttpStatusCode.OK,
+                new List<ProjectUtInfo> {tigerUtInfos, myMobilityUtInfos},
+                new JsonMediaTypeFormatter());
         }
 
-        private static List<UTInfo> GetUtInfos(string utFileKey, string searchKeyword = null)
+        private static ProjectUtInfo GetProjectUtInfo(string projectName, string searchKeyword = null)
         {
-            List<UTInfo> utInfos = LoadUTInfosFromFile(utFileKey);
+            ProjectUtInfo projectUtInfo = LoadProjectUtInfoFromFile(projectName);
 
             if (string.IsNullOrEmpty(searchKeyword))
             {
-                return utInfos;
+                return projectUtInfo;
             }
 
-            List<UTInfo> searchResult =
-                utInfos.Where(utInfo => utInfo.Contains(searchKeyword)).ToList();
+            FilterByKeyword(projectUtInfo, searchKeyword);
 
-            return searchResult;
+            return projectUtInfo;
         }
 
-        private static List<UTInfo> LoadUTInfosFromFile(string utFileKey)
+        private static void FilterByKeyword(ProjectUtInfo projectUtInfo, string searchKeyword)
         {
-            List<UTInfo> utInfos;
-            string mspecFileName = WebConfigurationManager.AppSettings[utFileKey];
+            projectUtInfo.ApiTests = FindAll(projectUtInfo.ApiTests, searchKeyword);
+            projectUtInfo.UnitTests = FindAll(projectUtInfo.UnitTests, searchKeyword);
+            projectUtInfo.JavaScriptTests = FindAll(projectUtInfo.JavaScriptTests, searchKeyword);
+        }
+
+        private static List<UTInfo> FindAll(List<UTInfo> tests, string searchKeyword)
+        {
+            return tests.FindAll(utInfo => utInfo.Contains(searchKeyword));
+        }
+
+        private static ProjectUtInfo LoadProjectUtInfoFromFile(string projectName)
+        {
+            ProjectUtInfo projectUtInfo;
+            string projectFileName = WebConfigurationManager.AppSettings[projectName];
             string mapPath = HttpContext.Current.Server.MapPath("~/App_Data");
-            string fileName = string.Format("{0}\\{1}", mapPath, mspecFileName);
+            string fileName = string.Format("{0}\\{1}", mapPath, projectFileName);
             using (var streamReader = new StreamReader(fileName))
             {
-                utInfos = JsonConvert.DeserializeObject<List<UTInfo>>(streamReader.ReadToEnd());
+                projectUtInfo = JsonConvert.DeserializeObject<ProjectUtInfo>(streamReader.ReadToEnd());
             }
-            return utInfos;
+            return projectUtInfo;
         }
 
         [HttpGet]
         public HttpResponseMessage Search(string query)
         {
-            return GetUtInfosResponse(query);
+            return GetResponse(query);
         }
     }
 }

@@ -6,8 +6,6 @@ $(function(){
 
 	function onSearch(){
 		var searchKeyword = $("#searchKeyword").val();
-		// var uri = "Search?query={0}".format(searchKeyword);
-		console.log($("#searchKeyword"))
 		var uri = "Search?query=" + searchKeyword;
 
 		$.get(uri, function( data ) {
@@ -21,16 +19,29 @@ $(function(){
 		});
 	}
 
-	function renderUtData(data){
+	function renderUtData(projectUtInfos){
 		var testListElement = $("#testList");
 		testListElement.children().empty();
 
-		appendTopUlToDocument(testListElement, data["mspecInfos"], "API Tests");
-		appendTopUlToDocument(testListElement, data["xunitInfos"], "Unit Tests");
-		appendTopUlToDocument(testListElement, data["jtInfos"], "JavaScript Tests");
+		_.each(projectUtInfos, function(projectUtInfo){
+			appendProjectToDocument(testListElement, projectUtInfo);
+		});
 	}
 
-	function appendTopUlToDocument(parentElement, utData, title){
+	function appendProjectToDocument(parentElement, projectUtInfo){
+		var projectTitleElement = $("<h2/>").text(projectUtInfo.ProjectName);
+		parentElement.append(projectTitleElement);
+
+		appendUtInfosElements(parentElement, projectUtInfo.ApiTests, "API Tests");
+		appendUtInfosElements(parentElement, projectUtInfo.UnitTests, "Unit Tests");
+		appendUtInfosElements(parentElement, projectUtInfo.JavaScriptTests, "JavaScript Tests");
+	}
+
+	function appendUtInfosElements(parentElement, utData, title){
+		if(!utData || utData.length <= 0){
+			return;
+		}
+
 		var utTitleElement = $("<h3/>").text(title);
 	  	parentElement.append(utTitleElement);
 
