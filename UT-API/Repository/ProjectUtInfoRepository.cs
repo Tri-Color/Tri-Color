@@ -35,6 +35,10 @@ namespace UT_API.Repository
 
         private static List<UTInfo> FindAll(List<UTInfo> tests, string searchKeyword)
         {
+            if (string.IsNullOrEmpty(searchKeyword))
+            {
+                return tests;
+            }
             return tests.FindAll(utInfo => utInfo.Contains(searchKeyword));
         }
 
