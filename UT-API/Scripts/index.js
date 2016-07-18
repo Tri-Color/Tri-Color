@@ -23,24 +23,59 @@ $(function(){
 
 	function renderUtData(projectUtInfos){
 		var testListElement = $("#testList");
-		testListElement.children().empty();
+		testListElement.children().remove();
+		var projectFilterDivElement = $("#projectFilterSpan");
+		projectFilterDivElement.children().remove();
 
 		appendCountElementByProject(testListElement, projectUtInfos);
 
+		var headerElement = $("#header");
 		_.each(projectUtInfos, function(projectUtInfo){
+			appendCheckbox(projectFilterDivElement, projectUtInfo.ProjectName);
 			appendProjectToDocument(testListElement, projectUtInfo);
 		});
 	}
 
+	function appendCheckbox(parentElement, projectName){
+		var checkboxElement = $("<input/>")
+			.attr("id", projectName)
+			.attr("type", "checkbox")
+			.attr("checked", true)
+			.change(onCheckboxChanged);
+		var textElement = $("<span/>").text(projectName);
+		var wrapperElement = $("<span/>")
+			.append(checkboxElement)
+			.append(textElement);
+		parentElement.append(wrapperElement);
+	}
+
+	function onCheckboxChanged(){
+		var projectName = $(this).attr("id");
+		var projectDivId = getProjectDivId(projectName);
+		var displayValue = $(this).is(":checked") ? "block" : "none";
+		console.log($("#" + projectDivId))
+		$("#" + projectDivId).css("display", displayValue);
+	}
+
 	function appendProjectToDocument(parentElement, projectUtInfo){
-		var projectTitleElement = $("<h2/>").text(projectUtInfo.ProjectName);
-		parentElement.append(projectTitleElement);
+		var projectName = projectUtInfo.ProjectName;
+		var projectTitleElement = $("<h2/>").text(projectName);
 
-		appendCountElementByProject(parentElement, [projectUtInfo]);
+		var projectElement = $("<div/>")
+			.attr("id", getProjectDivId(projectName))
+			.append(projectTitleElement);
 
-		appendUtInfosElements(parentElement, projectUtInfo.ApiTests, "API Tests");
-		appendUtInfosElements(parentElement, projectUtInfo.UnitTests, "Unit Tests");
-		appendUtInfosElements(parentElement, projectUtInfo.JavaScriptTests, "JavaScript Tests");
+		appendCountElementByProject(projectElement, [projectUtInfo]);
+
+		appendUtInfosElements(projectElement, projectUtInfo.ApiTests, "API Tests");
+		appendUtInfosElements(projectElement, projectUtInfo.UnitTests, "Unit Tests");
+		appendUtInfosElements(projectElement, projectUtInfo.JavaScriptTests, "JavaScript Tests");
+
+		parentElement.append(projectElement);
+	}
+
+	function getProjectDivId(projectName){
+		return projectName + "Div";
 	}
 
 	function appendUtInfosElements(parentElement, utData, title){
