@@ -5,6 +5,6 @@ namespace Git_Analysis.Parsers
 {
     public interface Parser
     {
-        void parse(String str);
+        object parse(String str);
     }
 }

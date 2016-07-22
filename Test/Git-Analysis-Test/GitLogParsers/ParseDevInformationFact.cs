@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Git_Analysis.Parsers;
 using Xunit;
 
@@ -18,12 +19,12 @@ namespace Git_Analysis_Test.GitLogParsers
         public void should_parse_dev_from_comments(String comment,String devs)
         {
             DevInformationParser devParser = new DevInformationParser();
-            devParser.parse(comment);
+             List<string> devNames = devParser.parse(comment) as List<string>;
             foreach (var dev in devs.Split(','))
             {
-                Assert.True(devParser.DevNames.Contains(dev));
+                Assert.True(devNames.Contains(dev));
             }
-            Assert.Equal(devParser.DevNames.Count, devs.Split(',').Length);
+            Assert.Equal(devNames.Count, devs.Split(',').Length);
         }
     }
 }

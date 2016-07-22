@@ -13,7 +13,7 @@ namespace Git_Analysis_Test.GitLogParsers
         {
             StoryInformationParser parser = new StoryInformationParser();
             parser.parse(comment);
-            Assert.Equal(parser.StoryNum,storyinfo);
+            Assert.Equal(parser.parse(comment), storyinfo);
         }
 
     }

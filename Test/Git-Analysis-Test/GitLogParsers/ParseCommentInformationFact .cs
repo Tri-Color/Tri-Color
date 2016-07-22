@@ -17,8 +17,7 @@ namespace Git_Analysis_Test.GitLogParsers
         public void should_parse_comment_information_from_comments(string comment,string commentInfo)
         {
             CommentInformationParser parser = new CommentInformationParser();
-            parser.parse(comment);
-            Assert.Equal(parser.Comment,commentInfo);
+            Assert.Equal(parser.parse(comment), commentInfo);
         }
 
     }

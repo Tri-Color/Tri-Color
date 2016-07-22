@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Git_Analysis.Domain;
@@ -7,25 +8,21 @@ namespace Git_Analysis.Utils
 {
     public class FileReader : IDisposable
     {
-        string file_path;
+        readonly string file_path;
         FileStream fileStream;
         StreamReader steamReader;
+        StringBuilder strBuffer;
         public FileReader(string path)
         {
-            this.file_path = path;
-
+            file_path = path;
+            strBuffer = new StringBuilder();
         }
 
         public void Open()
         {
-            if (File.Exists(file_path))
-            {
-                fileStream = new FileStream(file_path, FileMode.Open);
-                steamReader = new StreamReader(fileStream);
-                return;
-            }
-            throw new FileNotFoundException();
-
+            if (!File.Exists(file_path)) throw new FileNotFoundException();
+            fileStream = new FileStream(file_path, FileMode.Open);
+            steamReader = new StreamReader(fileStream);
         }
 
         public void Close()
@@ -49,19 +46,44 @@ namespace Git_Analysis.Utils
             return null;
         }
 
+        public bool HasMoreCommitInfo()
+        {
+            return !steamReader.EndOfStream;
+        }
+
+        public List<CommitBlockInfo> GetAllCommits()
+        {
+            List<CommitBlockInfo> commits = new List<CommitBlockInfo>();
+            do
+            {
+                commits.Add(GetOneCommit());
+            } while (HasMoreCommitInfo());
+            return commits;
+        }
+
         public CommitBlockInfo GetOneCommit()
         {
-            string tmp = ReadLine();
-            StringBuilder builder = new StringBuilder();
-            var line = ReadLine();
-            while (!IsCommitInfo(line))
+            string commitInfo;
+            if (strBuffer.Length > 0)
             {
-                builder.Append(line);
-                line = ReadLine();
+                commitInfo = strBuffer.ToString();
+                strBuffer.Clear();
+            }
+            else
+            {
+                commitInfo = ReadLine();
+            }
+            StringBuilder builder = new StringBuilder();
+            strBuffer.Append(ReadLine());
+            while (!IsCommitInfo(strBuffer.ToString()))
+            {
+                builder.Append(strBuffer+"\n");
+                strBuffer.Clear();
+                strBuffer.Append(ReadLine());
             }
            return  new CommitBlockInfo
             {
-                CommitInfo = tmp,
+                CommitInfo = commitInfo,
                 ParseInfo = builder.ToString()
             };
         }

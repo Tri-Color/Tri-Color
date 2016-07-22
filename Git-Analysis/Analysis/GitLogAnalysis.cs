@@ -10,10 +10,10 @@ namespace Git_Analysis.Analysis
 {
     public class GitLogAnalysis
     {
-        DevInformationParser devInformationParser;
-        StoryInformationParser storyInformationParser;
-        CommentInformationParser commentInformationParser;
-        TestFilesParser testFilesParser;
+        readonly DevInformationParser devInformationParser;
+        readonly StoryInformationParser storyInformationParser;
+        readonly CommentInformationParser commentInformationParser;
+        readonly TestFilesParser testFilesParser;
 
         string commit;
         string parse;
@@ -34,20 +34,17 @@ namespace Git_Analysis.Analysis
 
         public List<string> GetDevs()
         {
-            devInformationParser.parse(GetCommentFromCommit());
-            return devInformationParser.DevNames;
+            return devInformationParser.parse(GetCommentFromCommit()) as List<string>;
         }
 
         public string GetStoryNum()
         {
-            storyInformationParser.parse(GetCommentFromCommit());
-            return storyInformationParser.StoryNum;
+            return storyInformationParser.parse(GetCommentFromCommit()) as string;
         }
 
         public string GetComment()
         {
-            commentInformationParser.parse(GetCommentFromCommit());
-            return commentInformationParser.Comment ?? string.Empty;
+            return commentInformationParser.parse(GetCommentFromCommit()) as string ?? string.Empty;
         }
 
         public string GetHash()
@@ -73,8 +70,7 @@ namespace Git_Analysis.Analysis
 
         public ISet<string> GetTestFilesList()
         {
-            testFilesParser.parse(parse);
-            return testFilesParser.TestFiles;
+            return testFilesParser.parse(parse) as ISet<string>;
         }
 
         public CommitInformation GetParseCommitInformation(CommitBlockInfo commitBlockInfo)

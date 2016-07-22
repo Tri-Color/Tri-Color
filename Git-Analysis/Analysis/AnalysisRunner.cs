@@ -31,8 +31,10 @@ namespace Git_Analysis.Analysis
             using (reader)
             {
                 reader.Open();
-                var commit = reader.GetOneCommit();
-                CommitInfos.Add(analysis.GetParseCommitInformation(commit));
+                var commit1 = reader.GetOneCommit();
+                var commit2 = reader.GetOneCommit();
+                CommitInfos.Add(analysis.GetParseCommitInformation(commit1));
+                CommitInfos.Add(analysis.GetParseCommitInformation(commit2));
                 reader.Close();
             }
          }

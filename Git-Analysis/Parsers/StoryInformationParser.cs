@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -9,22 +7,22 @@ namespace Git_Analysis.Parsers
     public class StoryInformationParser : Parser
     {
         const String pattern = @"#(\d|\/|\w)*";
-        Regex regex;
-
-        public string StoryNum { get; set; }
+        readonly Regex regex;
 
         public StoryInformationParser()
         {
             regex = new Regex(pattern);
         }
 
-        public void parse(string str)
+        public object parse(string str)
         {
+            string storyNumber = null;
             var matches = regex.Matches(str);
             foreach (var match in matches)
             {
-                StoryNum = poundParse(new[] { match.ToString() })[0];
+                storyNumber = poundParse(new[] { match.ToString() })[0];
             }
+            return storyNumber;
         }
 
         public string[] poundParse(string[] strArr)

@@ -19,17 +19,16 @@ namespace Git_Analysis_Test.GitLogParsers
         public void should_parse_test_files_from_commit_information(string commitInfo, string testFiles)
         {
             TestFilesParser parser = new TestFilesParser();
-            parser.parse(commitInfo);
-            HashSet<string> changedtestFiles = (HashSet<string>) parser.TestFiles;
+            HashSet<string> changedtestFiles = parser.parse(commitInfo) as HashSet<string>;
             foreach (var testfile in testFiles.Split(','))
             {
                 if (testfile.Equals(""))
                 {
-                    Assert.Equal(changedtestFiles.Count, 0);
+                    if (changedtestFiles != null) Assert.Equal(changedtestFiles.Count, 0);
                 }
                 else
                 {
-                    Assert.True(changedtestFiles.Contains(testfile));
+                    Assert.True(changedtestFiles != null && changedtestFiles.Contains(testfile));
                 }
             }
         }

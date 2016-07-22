@@ -9,22 +9,22 @@ namespace Git_Analysis.Parsers
     public class CommentInformationParser : Parser
     {
         const String pattern = @"#(\d|\/|\w)+( )+[a-zA-Z|( )|(.)|(\-)|0-9|(,)]+";
-        Regex regex;
-
-        public string Comment { get; set; }
+        readonly Regex regex;
 
         public CommentInformationParser()
         {
             regex = new Regex(pattern);
         }
 
-        public void parse(string str)
+        public object parse(string str)
         {
             var matches = regex.Matches(str);
+            string comment = null;
             foreach (var match in matches)
             {
-                Comment = commentParse(match.ToString());
+                comment = commentParse(match.ToString());
             }
+            return comment;
         }
 
         public string commentParse(string comment)

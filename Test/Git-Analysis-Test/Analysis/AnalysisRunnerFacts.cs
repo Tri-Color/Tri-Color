@@ -15,7 +15,7 @@ namespace Git_Analysis_Test.Analysis
             AnalysisRunner runner = new AnalysisRunner(input_path);
 
             runner.run();
-            Assert.Equal(runner.CommitInfos.Count,1);
+            Assert.Equal(runner.CommitInfos.Count,2);
             Assert.Equal(runner.CommitInfos[0].Hash, "5016e80");
             Assert.Equal(runner.CommitInfos[0].AddTime, DateTime.Parse("2016-07-08"));
             Assert.Equal(runner.CommitInfos[0].CommitTime, DateTime.Parse("2016-07-08"));
@@ -24,5 +24,6 @@ namespace Git_Analysis_Test.Analysis
             Assert.Equal(runner.CommitInfos[0].Comment, "Change comments length from 255 to 500 characters for Upload teq feature, and fix some ie issue for text-area.");
             Assert.Equal(runner.CommitInfos[0].TestFileList, new HashSet<string>());
         }
+
     }
 }

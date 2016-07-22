@@ -7,7 +7,7 @@ namespace Git_Analysis_Test.Utils
 {
     public class FileReaderFact
     {
-        string file_path = Path.GetFullPath(Environment.CurrentDirectory+ @"..\..\..\Utils\testFiles\git.log");
+        readonly string file_path = Path.GetFullPath(Environment.CurrentDirectory+ @"..\..\..\Utils\testFiles\git.log");
         [Fact]
         public void should_recognize_commit_information()
         {
@@ -56,8 +56,21 @@ namespace Git_Analysis_Test.Utils
                 Assert.Equal(true, commit.CommitInfo.StartsWith("hash:5016e80|addTime:2016-07-08|commitTime:2016-07-08| " +
                     "comment:[wangjian & shengqi & jijie] #1919 Change comments length from" +
                     " 255 to 500 characters for Upload teq feature, and fix some ie issue for text-area."));
-                Assert.Equal(true, commit.ParseInfo.EndsWith(" 7 files changed, 35 insertions(+), 4 deletions(-)"));
+                Assert.Equal(true, commit.ParseInfo.EndsWith(" 7 files changed, 35 insertions(+), 4 deletions(-)\n"));
             }
+        }
+
+        [Fact]
+        public void should_return_true_when_there_are_more_commit_block()
+        {
+            using (FileReader reader = new FileReader(file_path))
+            {
+                reader.Open();
+                var hasMore = reader.HasMoreCommitInfo();
+                reader.Close();
+                Assert.Equal(true,hasMore);
+            }
+
         }
 
     }

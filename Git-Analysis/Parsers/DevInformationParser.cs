@@ -14,21 +14,21 @@ namespace Git_Analysis.Parsers
         public DevInformationParser()
         {
             regex = new Regex(pattern);
-            DevNames = new List<string>();
         }
 
-        public List<string> DevNames { get; set; }
 
-        public void parse(string str)
+        public object parse(string str)
         {
             var matches = regex.Matches(str);
+            List<string> devs= new List<string>();
             foreach (var match in matches)
             {
                 var nameStr = bracketsParse(new []{match.ToString()});
                 nameStr = slashParse(nameStr);
                 nameStr = poundParse(nameStr);
-                DevNames.AddRange(getDevs(nameStr));
+                devs.AddRange(getDevs(nameStr));
             }
+            return devs;
         }
 
         public List<string> getDevs(string[] strArr)
