@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using Git_Analysis.Domain;
 using Git_Analysis.Utils;
 using Xunit;
 
@@ -71,6 +73,26 @@ namespace Git_Analysis_Test.Utils
                 Assert.Equal(true,hasMore);
             }
 
+        }
+
+        [Fact]
+        public void should_get_correct_commit_block()
+        {
+            List<CommitBlockInfo> commitInfos = new List<CommitBlockInfo>();
+            using (FileReader reader = new FileReader(file_path))
+            {
+                reader.Open();
+                commitInfos = reader.GetAllCommits();
+                reader.Close();
+            }
+            long count = 0;
+            using (FileReader reader = new FileReader(file_path))
+            {
+                reader.Open();
+                count = reader.GetCommitCount();
+                reader.Close();
+            }
+            Assert.Equal(commitInfos.Count,count);
         }
 
     }

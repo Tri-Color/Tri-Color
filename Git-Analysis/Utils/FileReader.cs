@@ -48,7 +48,7 @@ namespace Git_Analysis.Utils
 
         public bool HasMoreCommitInfo()
         {
-            return !steamReader.EndOfStream;
+            return strBuffer.ToString().Length > 0 && IsCommitInfo(strBuffer.ToString());
         }
 
         public List<CommitBlockInfo> GetAllCommits()
@@ -75,7 +75,7 @@ namespace Git_Analysis.Utils
             }
             StringBuilder builder = new StringBuilder();
             strBuffer.Append(ReadLine());
-            while (!IsCommitInfo(strBuffer.ToString()))
+            while (!IsCommitInfo(strBuffer.ToString()) && !steamReader.EndOfStream)
             {
                 builder.Append(strBuffer+"\n");
                 strBuffer.Clear();
@@ -90,7 +90,8 @@ namespace Git_Analysis.Utils
 
         static bool IsCommitInfo(string line)
         {
-            return line.Contains("hash:") &&
+            return line.Length > 0&&
+                line.Contains("hash:") &&
                 line.Contains("addTime:") &&
                 line.Contains("commitTime:") &&
                 line.Contains("comment:");
