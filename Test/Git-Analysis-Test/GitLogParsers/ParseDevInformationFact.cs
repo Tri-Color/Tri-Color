@@ -7,7 +7,6 @@ namespace Git_Analysis_Test.GitLogParsers
 {
     public class ParseDevInformationFact
     {
-
         [Theory]
         [InlineData("[Ruizhi & hcheng] #n/a use year as the filter", "Ruizhi,hcheng")]
         [InlineData("[bojian & wande] #n/a ajust wording in kpi overview and kpi detail page.", "bojian,wande")]

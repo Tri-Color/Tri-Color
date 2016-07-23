@@ -8,7 +8,7 @@ namespace Git_Analysis.Parsers
 {
     public class CommentInformationParser : Parser
     {
-        const String pattern = @"#(\d|\/|\w)+( )+[a-zA-Z|( )|(.)|(\-)|0-9|(,)]+";
+        const String pattern = @"[#|( )](\d|\/|\w)+( )+[a-zA-Z|( )|(.)|(\-)|0-9|(,)]+";
         readonly Regex regex;
 
         public CommentInformationParser()
@@ -19,11 +19,9 @@ namespace Git_Analysis.Parsers
         public object parse(string str)
         {
             var matches = regex.Matches(str);
+            var commentStr =matches.Count > 0 ? matches[0].ToString():string.Empty;
             string comment = null;
-            foreach (var match in matches)
-            {
-                comment = commentParse(match.ToString());
-            }
+            comment = commentParse(commentStr);
             return comment;
         }
 
