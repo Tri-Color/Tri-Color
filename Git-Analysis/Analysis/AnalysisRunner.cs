@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Git_Analysis.Domain;
 using Git_Analysis.Utils;
 
@@ -31,12 +32,30 @@ namespace Git_Analysis.Analysis
             using (reader)
             {
                 reader.Open();
-                var commit1 = reader.GetOneCommit();
-                var commit2 = reader.GetOneCommit();
-                CommitInfos.Add(analysis.GetParseCommitInformation(commit1));
-                CommitInfos.Add(analysis.GetParseCommitInformation(commit2));
+                do
+                {
+                    CommitInfos.Add(analysis.GetParseCommitInformation(reader.GetOneCommit()));
+                } while (reader.HasMoreCommitInfo());
                 reader.Close();
             }
          }
+
+        public void Write()
+        {
+            foreach (var commitInfo in CommitInfos)
+            {
+                Console.Write(commitInfo.ToString());
+            }
+        }
+
+        public static void Main(string[] args)
+        {
+
+            string input_path = Path.GetFullPath(Environment.CurrentDirectory + @"\git.log");
+
+            AnalysisRunner runner = new AnalysisRunner(input_path);
+            runner.run();
+            runner.Write();
+        }
     }
 }

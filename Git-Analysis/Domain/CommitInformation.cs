@@ -16,7 +16,7 @@ namespace Git_Analysis.Domain
 
         public override string ToString()
         {
-            return "Hash:" + Hash + "\nAddTime:"+AddTime+"\nCommitTime:"+CommitTime+"\n" +
+            return "\nHash:" + Hash + "\nAddTime:"+AddTime+"\nCommitTime:"+CommitTime+"\n" +
                 "Devs:"+string.Join(",",Devs)+"\nStoryNumber:"+StoryNumber+"\nComment:"+Comment+"\n" +
                 "TestFileList:\n\t"+string.Join("\n\t",TestFileList.ToArray());
         }
