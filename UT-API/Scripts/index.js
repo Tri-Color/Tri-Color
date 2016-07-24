@@ -53,7 +53,6 @@ $(function(){
 		var projectName = $(this).attr("id");
 		var projectDivId = getProjectDivId(projectName);
 		var displayValue = $(this).is(":checked") ? "block" : "none";
-		console.log($("#" + projectDivId))
 		$("#" + projectDivId).css("display", displayValue);
 	}
 
@@ -88,47 +87,60 @@ $(function(){
 
 	  	appendCountElementByUtInfos(parentElement, utData);
 
-		appendUtInfoElement(parentElement, utData);
+	  	var treeData = {
+		    'core' : {
+		        'data' : [
+		            { 
+		            	"text" : title,
+		            	children: []
+		            },
+		        ]
+		    }
+		};
+	  	generateTreeChildrenData(treeData.core.data[0], utData);
+	  	var divElement = $("<div/>");
+	  	divElement.jstree(treeData);
+	  	console.log(treeData)
+	  	parentElement.append(divElement);
+		// var topUlElement = appendUtInfoElement(parentElement, utData);
+		// $("ul").jstree();
+		// topUlElement.jstree();
 	}
 
-	function appendUtInfoElement(parentElement, utInfos){
-		var outerUlElement = $("<ul/>");
-		parentElement.append(outerUlElement);
+	function generateTreeChildrenData(treeData, utDataArray){
+		if (!utDataArray || utDataArray.length === 0) {
+			return;
+		}
 
-		_.each(utInfos, function(utInfo){
-			var liElement = $("<li/>");
-			outerUlElement.append(liElement);
+		_.each(utDataArray, function(utInfo){
+			var currentChild = {
+				text: utInfo.Description,
+				children: []
+			};
 
-			appendDivElement(liElement, utInfo.Description);
+			AddUtDetailToTreeData(currentChild, utInfo.WhenList, function(item){
+				return item;
+			});
+			AddUtDetailToTreeData(currentChild, utInfo.ThenList, function(item){
+				var prefix = !!item.IsParameterized ? "[Parameterized] " : "";
+				return prefix + item.Description;
+			});
+			generateTreeChildrenData(currentChild, utInfo.Children);
 
-			appendWhenListAsDivs(liElement, utInfo.WhenList);
-			appendThenListAsDivs(liElement, utInfo.ThenList);
-
-			var children = utInfo.Children;
-			appendUtInfoElement(liElement, children);
+			treeData.children.push(currentChild);
 		});
 	}
 
-	function appendWhenListAsDivs(element, array){
-		_.each(array, function(item){
-			appendDivElement(element, item);
-		})
+	function AddUtDetailToTreeData(treeData, detailList, getContent){
+		if(!!detailList && detailList.length > 0){
+			_.each(detailList, function(item){
+				treeData.children.push({
+					text: getContent(item)
+				});
+			})
+		}
 	}
-
-	function appendThenListAsDivs(element, array){
-		_.each(array, function(item){
-			var text = !!item.IsParameterized ? 
-				"[Parameterized] " + item.Description:
-				item.Description
-			appendDivElement(element, text);
-		})
-	}
-
-	function appendDivElement(element, text){
-		var divElement = $("<div/>").text(text);
-		element.append(divElement);
-	}
-
+	
 	function appendCountElementByProject(parentElement, projectUtInfos){
 		var testFileCount = getTestFileCountByProject(projectUtInfos);
 		var testSuiteCount = getTestSuiteCountByProject(projectUtInfos);
