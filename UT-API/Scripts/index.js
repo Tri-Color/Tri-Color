@@ -1,11 +1,11 @@
 "use strict";
 
 $(function(){
-	$("#searchButton").on("click", onSearch);
-	$("#listAllButton").on("click", loadAllTests);
+	$("#search-button").on("click", onSearch);
+	$("#list-all-button").on("click", loadAllTests);
 
 	function onSearch(){
-		var searchKeyword = $("#searchKeyword").val();
+		var searchKeyword = $("#search-keyword").val();
 		var uri = "Search?query=" + searchKeyword;
 
 		$.get(uri, function( data ) {
@@ -14,7 +14,7 @@ $(function(){
 	}
 
 	function loadAllTests(){
-		$("#searchKeyword").val("");
+		$("#search-keyword").val("");
 
 		$.get( "UnitTests", function( data ) {
 			renderUtData(data);
@@ -22,14 +22,14 @@ $(function(){
 	}
 
 	function renderUtData(projectUtInfos){
-		var testListElement = $("#testList");
+		var testListElement = $(".test-list");
 		testListElement.children().remove();
-		var projectFilterDivElement = $("#projectFilterSpan");
+		var projectFilterDivElement = $("#project-filter");
 		projectFilterDivElement.children().remove();
 
 		appendCountElementByProject(testListElement, projectUtInfos);
 
-		var headerElement = $("#header");
+		var headerElement = $(".header");
 		_.each(projectUtInfos, function(projectUtInfo){
 			appendCheckbox(projectFilterDivElement, projectUtInfo.ProjectName);
 			appendProjectToDocument(testListElement, projectUtInfo);
@@ -102,11 +102,7 @@ $(function(){
 	  	generateTreeChildrenData(treeData.core.data[0], utData);
 	  	var divElement = $("<div/>");
 	  	divElement.jstree(treeData);
-	  	console.log(treeData)
 	  	parentElement.append(divElement);
-		// var topUlElement = appendUtInfoElement(parentElement, utData);
-		// $("ul").jstree();
-		// topUlElement.jstree();
 	}
 
 	function generateTreeChildrenData(treeData, utDataArray){
