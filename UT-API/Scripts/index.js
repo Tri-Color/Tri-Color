@@ -92,7 +92,9 @@ $(function(){
 		        'data' : [
 		            { 
 		            	"text" : title,
-		            	children: []
+		            	children: [],
+		            	state : { "opened" : true },
+                    	icon : "glyphicon"
 		            },
 		        ]
 		    }
@@ -115,7 +117,9 @@ $(function(){
 		_.each(utDataArray, function(utInfo){
 			var currentChild = {
 				text: utInfo.Description,
-				children: []
+				children: [],
+            	state : { "opened" : true },
+            	icon : "glyphicon"
 			};
 
 			AddUtDetailToTreeData(currentChild, utInfo.WhenList, function(item){
@@ -135,12 +139,13 @@ $(function(){
 		if(!!detailList && detailList.length > 0){
 			_.each(detailList, function(item){
 				treeData.children.push({
-					text: getContent(item)
+					text: getContent(item),
+					icon: "glyphicon"
 				});
 			})
 		}
 	}
-	
+
 	function appendCountElementByProject(parentElement, projectUtInfos){
 		var testFileCount = getTestFileCountByProject(projectUtInfos);
 		var testSuiteCount = getTestSuiteCountByProject(projectUtInfos);
