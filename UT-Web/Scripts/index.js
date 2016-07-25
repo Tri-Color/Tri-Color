@@ -3,6 +3,7 @@
 $(function(){
 	$("#search-button").on("click", onSearch);
 	$("#list-all-button").on("click", loadAllTests);
+	$("#collapse-all-checkbox").change(onCollapseAllChanged);
 
 	function onSearch(){
 		var searchKeyword = $("#search-keyword").val();
@@ -56,6 +57,17 @@ $(function(){
 		$("#" + projectDivId).css("display", displayValue);
 	}
 
+	function onCollapseAllChanged(){
+		var isChecked = $(this).is(":checked");
+
+		var treeElements = $(".tree");
+		for(var i = 0; i < treeElements.length; i++){
+			var treeElement = treeElements.eq(i);
+			var command = !!isChecked ? "close_all" : "open_all";
+			treeElement.jstree(command);
+		}
+	}
+
 	function appendProjectToDocument(parentElement, projectUtInfo){
 		var projectName = projectUtInfo.ProjectName;
 		var projectTitleElement = $("<h2/>").text(projectName);
@@ -100,7 +112,7 @@ $(function(){
 		    }
 		};
 	  	generateTreeChildrenData(treeData.core.data[0], utData);
-	  	var divElement = $("<div/>");
+	  	var divElement = $("<div/>").attr("class", "tree");
 	  	divElement.jstree(treeData);
 	  	parentElement.append(divElement);
 	}
