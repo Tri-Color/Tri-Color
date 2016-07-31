@@ -50,8 +50,13 @@ namespace Git_Analysis.Analysis
 
         public static void Main(string[] args)
         {
+            if (args.Length < 1)
+            {
+                Console.Write("Please enter Input Git log File Path!\n");
+                return;
+            }
 
-            string input_path = Path.GetFullPath(Environment.CurrentDirectory + @"\git.log");
+            string input_path = args[0];
 
             AnalysisRunner runner = new AnalysisRunner(input_path);
             runner.run();
