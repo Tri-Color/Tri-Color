@@ -18,7 +18,7 @@ namespace UTCli
                 ConfigurationManager.AppSettings["TigerFolder"]                
             });
 
-            ExportUtils.ExportProjectTestsToFile("MyMobilityApps", new List<string>
+            ExportUtils.ExportProjectTestsToFile("MyMobility Apps", new List<string>
             {
                 ConfigurationManager.AppSettings["MyMobilityAppsFolder"]
             });

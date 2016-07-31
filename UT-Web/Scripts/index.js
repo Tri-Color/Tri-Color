@@ -220,6 +220,6 @@ $(function(){
 	}
 
 	function getTestCaseCountByUtInfo(utInfo){
-		return utInfo.ThenList.length + _.sumBy(utInfo.Children, getTestSuiteCountByUtInfo);
+		return utInfo.ThenList.length + _.sumBy(utInfo.Children, getTestCaseCountByUtInfo);
 	}
 });
