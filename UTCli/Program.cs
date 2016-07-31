@@ -10,13 +10,17 @@ namespace UTCli
         {
             ExportUtils.ExportProjectTestsToFile("MyMobility", new List<string>
             {
-                ConfigurationManager.AppSettings["MyMobilityFolder"],
-                ConfigurationManager.AppSettings["MyMobilityAppsFolder"]
+                ConfigurationManager.AppSettings["MyMobilityFolder"]
             });
 
             ExportUtils.ExportProjectTestsToFile("Tiger", new List<string>
             {
                 ConfigurationManager.AppSettings["TigerFolder"]                
+            });
+
+            ExportUtils.ExportProjectTestsToFile("MyMobilityApps", new List<string>
+            {
+                ConfigurationManager.AppSettings["MyMobilityAppsFolder"]
             });
         }
     }

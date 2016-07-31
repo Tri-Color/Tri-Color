@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UTExport.JT;
 using UTExport.MSpec;
 using UTExport.XUnit;
@@ -39,7 +40,8 @@ namespace UTExport
                 JavaScriptTests = ExportUtInfosFromFolders(folders, new JTManager(), JTManager.IsJtFile)
             };
 
-            string fileName = String.Format("C:\\Tri-Color\\UT-API\\App_Data\\{0}.json", projectName);
+            var fileInfo = new FileInfo(Assembly.GetCallingAssembly().FullName);
+            string fileName = String.Format("{0}\\..\\..\\..\\UT-Web\\App_Data\\{1}.json", fileInfo.Directory.FullName, projectName);
             UtJsonWriter.WriteToJson(projectUtInfo, fileName);
         }
 
