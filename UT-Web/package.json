@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compass": "grunt compass"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +13,10 @@
     "jquery": "^3.1.0",
     "jstree": "^3.3.1",
     "lodash": "^4.13.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-compass": "^1.1.1"
   }
 }
