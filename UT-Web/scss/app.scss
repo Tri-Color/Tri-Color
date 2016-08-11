@@ -1,7 +1,71 @@
-.nv-link-delete {
+@import "font-awesome/font-awesome";
+
+.home-logo {
+  float:left;
+  width:255px;
+  height:75px;
+  margin-top:15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.search-home-title {
+  min-width: 954px;
+  max-width: 1400px;
+  text-align: center;
+  margin: 20% auto;
+
+  h1 {
+    font-size: 42px;
+    font-family: Arial;
+    font-style: normal;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+}
+
+.search-input-group{
+	width: 70%;
+  display: inline-block;
+  position: relative;
+  border: solid 1px #EB8C00;
+  height: 32px;
+  margin: 0;
+  // padding: 1px 0 1px 1px;
+  padding: 0;
+  text-align: left;
+  background-color: white;
+  text-align: center;
+}
+
+.search-input-text {
+  border: none;
+  padding: 0 0 0 5px;
+  width: 95%;
+  height: 32px;
+  outline: none;
+}
+
+.search-input-button{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
   position: absolute;
-  right: 0;
-  top: 5px;
-  width: 16px;
-  height: 16px;
+  top: 0px;
+  right: 6px;
+  padding-top: 7px;
+  font-size: 16px;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.search-icon{
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
