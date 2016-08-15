@@ -1,0 +1,54 @@
+.search-result {
+
+	.header {
+	    padding-left: 170px;
+	    padding-right: 300px;
+	    height: 50px;
+
+	    .logo {
+	    	position: absolute;
+		    left: 0;
+		    display: inline-block;
+		    height: 50px;
+	    }
+	    .search-wrapper {
+			position: relative;
+		    border: solid 1px #EB8C00;
+		    height: 32px;
+		    margin: 0;
+		    padding: 1px 0 1px 1px;
+		    text-align: left;
+		    background-color: white;
+
+		    .search-input-text{
+		    	border: none;
+			    padding: 0 0 0 5px;
+			    width: 95%;
+			    height: 32px;
+			    outline: none;		    	
+		    }
+
+		    .search-input-button{
+			    width: 20px;
+			    height: 20px;
+			    display: inline-block;
+			    position: absolute;
+			    top: 0px;
+			    right: 6px;
+			    padding-top: 7px;
+			    font-size: 16px;
+		    }
+
+		    .search-icon{
+		    	width: 20px;
+			    height: 20px;
+			    display: inline-block;
+			    position: absolute;
+			    top: 0px;
+			    right: 6px;
+			    padding-top: 7px;
+			    font-size: 16px;
+		    }
+	    }
+	}
+}
