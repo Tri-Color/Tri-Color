@@ -7,8 +7,6 @@ $(function(){
 		search(param);
 
 		$("#search-button").on("click", onSearch);
-		$("#list-all-button").on("click", loadAllTests);
-		$("#collapse-all-checkbox").change(onCollapseAllChanged);
 
 		function search(param){
 			var uri = "Search?query=" + param;
@@ -23,67 +21,39 @@ $(function(){
 			search(searchKeyword);
 		}
 
-		function loadAllTests(){
-			$("#search-keyword").val("");
-
-			$.get( "UnitTests", function( data ) {
-				renderUtData(data);
-			});
-		}
-
 		function renderUtData(projectUtInfos){
-			var testListElement = $(".test-list");
-			testListElement.children().remove();
-			var projectFilterDivElement = $("#project-filter");
-			projectFilterDivElement.children().remove();
+			$("#test-tabs").remove();
 
-			appendCountElementByProject(testListElement, projectUtInfos);
+			var testTabsElement = $("<div/>")
+				.attr("id", "test-tabs")
+				.attr("class", "search-result-tabs");
 
-			var headerElement = $(".header");
+			$(".header").after(testTabsElement);
+			
+			var ulElement = $("<ul/>");
+			testTabsElement.append(ulElement);
+
 			_.each(projectUtInfos, function(projectUtInfo){
-				appendCheckbox(projectFilterDivElement, projectUtInfo.ProjectName);
-				appendProjectToDocument(testListElement, projectUtInfo);
+				appendProjectToDocument(testTabsElement, ulElement, projectUtInfo);
 			});
+
+			$("#test-tabs").tabs();
 		}
 
-		function appendCheckbox(parentElement, projectName){
-			var checkboxElement = $("<input/>")
-				.attr("id", projectName)
-				.attr("type", "checkbox")
-				.attr("checked", true)
-				.change(onCheckboxChanged);
-			var textElement = $("<span/>").text(projectName);
-			var wrapperElement = $("<span/>")
-				.append(checkboxElement)
-				.append(textElement);
-			parentElement.append(wrapperElement);
-		}
-
-		function onCheckboxChanged(){
-			var projectName = $(this).attr("id");
-			var projectDivId = getProjectDivId(projectName);
-			var displayValue = $(this).is(":checked") ? "block" : "none";
-			$("#" + projectDivId).css("display", displayValue);
-		}
-
-		function onCollapseAllChanged(){
-			var isChecked = $(this).is(":checked");
-
-			var treeElements = $(".tree");
-			for(var i = 0; i < treeElements.length; i++){
-				var treeElement = treeElements.eq(i);
-				var command = !!isChecked ? "close_all" : "open_all";
-				treeElement.jstree(command);
-			}
-		}
-
-		function appendProjectToDocument(parentElement, projectUtInfo){
+		function appendProjectToDocument(parentElement, ulElement, projectUtInfo){
 			var projectName = projectUtInfo.ProjectName;
-			var projectTitleElement = $("<h2/>").text(projectName);
+
+			var anchorElement = $("<a/>")
+				.attr("href", "#" + getProjectDivId(projectName))
+				.append(projectName);
+
+			var projectTitleElement = $("<li/>")
+				.append(anchorElement);
+
+			ulElement.append(projectTitleElement);
 
 			var projectElement = $("<div/>")
-				.attr("id", getProjectDivId(projectName))
-				.append(projectTitleElement);
+				.attr("id", getProjectDivId(projectName));
 
 			appendCountElementByProject(projectElement, [projectUtInfo]);
 
@@ -95,7 +65,7 @@ $(function(){
 		}
 
 		function getProjectDivId(projectName){
-			return projectName + "Div";
+			return projectName.replace(" ", "") + "Div";
 		}
 
 		function appendUtInfosElements(parentElement, utData, title){
