@@ -42,10 +42,11 @@ $(function(){
 
 		function appendProjectToDocument(parentElement, ulElement, projectUtInfo){
 			var projectName = projectUtInfo.ProjectName;
+			var tabTitle = projectName + "(" + getTestCaseCountByProject([projectUtInfo]) + ")";
 
 			var anchorElement = $("<a/>")
 				.attr("href", "#" + getProjectDivId(projectName))
-				.append(projectName);
+				.append(tabTitle);
 
 			var projectTitleElement = $("<li/>")
 				.append(anchorElement);
