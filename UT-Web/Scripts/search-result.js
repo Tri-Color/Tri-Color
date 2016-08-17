@@ -5,6 +5,7 @@ $(function(){
 	
 	function SearchResultController(param){
 		search(param);
+		$("#search-keyword").val(param);
 
 		$("#search-button").on("click", onSearch);
 
@@ -33,16 +34,30 @@ $(function(){
 			var ulElement = $("<ul/>");
 			testTabsElement.append(ulElement);
 
+			var isSetShowTab = false;
 			_.each(projectUtInfos, function(projectUtInfo){
 				appendProjectToDocument(testTabsElement, ulElement, projectUtInfo);
 			});
 
 			$("#test-tabs").tabs();
+			showTabWithTests(projectUtInfos);
+		}
+
+		function showTabWithTests(projectUtInfos){
+			for(var i = 0; i < projectUtInfos.length; i++){
+				var projectUtInfo = projectUtInfos[i];
+				if(getTestCaseCountByProjects([projectUtInfo]) > 0){
+					$("#test-tabs").tabs({
+						active: i
+					});
+					break;
+				}
+			}
 		}
 
 		function appendProjectToDocument(parentElement, ulElement, projectUtInfo){
 			var projectName = projectUtInfo.ProjectName;
-			var tabTitle = projectName + "(" + getTestCaseCountByProject([projectUtInfo]) + ")";
+			var tabTitle = projectName + "(" + getTestCaseCountByProjects([projectUtInfo]) + ")";
 
 			var anchorElement = $("<a/>")
 				.attr("href", "#" + getProjectDivId(projectName))
@@ -137,7 +152,7 @@ $(function(){
 		function appendCountElementByProject(parentElement, projectUtInfos){
 			var testFileCount = getTestFileCountByProject(projectUtInfos);
 			var testSuiteCount = getTestSuiteCountByProject(projectUtInfos);
-			var testCaseCount = getTestCaseCountByProject(projectUtInfos);
+			var testCaseCount = getTestCaseCountByProjects(projectUtInfos);
 
 			var text = "Test File: " + testFileCount + "; " +
 						"Test Suite: " + testSuiteCount + "; " +
@@ -183,7 +198,7 @@ $(function(){
 			return childrenCount > 1 ? childrenCount : 1;
 		}
 
-		function getTestCaseCountByProject(projectUtInfos){
+		function getTestCaseCountByProjects(projectUtInfos){
 			return getCountByProjectRecursively(projectUtInfos, getTestCaseCountByUtInfo);
 		}
 
